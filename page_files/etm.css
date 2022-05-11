@@ -1,0 +1,110 @@
+/*
+ * Copyright (c) Infor 2013. All rights reserved. www.infor.com
+ */
+
+.etmPadding {
+	padding: 3px;
+}
+
+.etmLrgPadding {
+	padding: 5px;
+}
+
+.etmWarning {
+	color: red;
+}
+
+.etmNoBorder {
+	border: 0px;
+}
+
+.etmCursor {
+	cursor: pointer;
+}
+
+.etmCursor a {
+    text-decoration: none;
+}
+
+.etmWidth {
+	width: 70;
+}
+
+.etmTabText {
+	text-decoration: none;
+	white-space: nowrap;
+}
+
+.etmCalCellData {
+	font-size: 9pt;
+	color: #3340cc;
+}
+
+.etmCalCellDataNoColor {
+	font-size: 8pt;
+}
+
+.etmCalDateNormal {
+	font-size: 7pt;
+}
+
+.etmBgColor {
+	background-color: transparent
+}
+
+.etmTsEmpDisplay {
+	color: #666666;
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 8pt;
+	text-align: left;
+    background-color: #E6E6E6;
+}
+
+.etmTsCell {
+    background-color: white;
+    font-family: Helvetica, Arial, sans-serif;
+    text-align: center;
+    text-decoration: none;
+    text-align: left;
+    padding: 3px;    
+    border-width: 0px;   
+    border-bottom: 1px solid #d9d9d9;
+}
+
+.etmMoreLink {
+    font-size: 7pt;
+    font-family: Helvetica, Arial, sans-serif;
+    font-weight: bold;    
+}
+
+.calendarCellTsOdd {
+	border: 0px;
+	color: black;
+	border-color: white;
+	background-color: white;
+    font-family: Helvetica, Arial, sans-serif;
+ 	font-size: 8pt;
+	text-align: center;
+	text-decoration: none;
+    cursor: default;
+}
+
+.calendarCellTsEven {
+	border: 0px;
+	color: black;
+	border-color: WhiteSmoke;
+	background-color: WhiteSmoke;
+    font-family: Helvetica, Arial, sans-serif;
+	font-size: 8pt;
+	text-align: center;
+	text-decoration: none;
+    cursor: default;
+}
+
+.calLegendTitle {
+	position: relative;
+    color: black;
+    font-size: 8pt;
+    font-family: Helvetica, Arial, sans-serif;
+    padding-right: 15px;
+}

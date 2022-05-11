@@ -1,0 +1,491 @@
+/*
+ * Copyright (c) Infor 2015. All rights reserved. www.infor.com
+ */
+
+SESSION = (function($){
+
+   return {
+      setIsValid : function(value){
+         localStorage.setItem("wbsessionvalid", value);
+      },
+
+      isValid : function(){
+         return localStorage.getItem("wbsessionvalid") == 'true';
+      }
+   };
+})(jQuery);
+
+/**
+ * Checks if session is alive, used to verify page's
+ * validity on back button navigation after logout
+ * where pages might appear from the browser's cache
+ */
+function checkSessionAlive(){
+   if (SESSION.isValid() == true) { //avoid unnecessary requests
+      return;
+   }
+   $('body').css('display', 'none'); //hide the body during request, prevent page brief flickering
+
+   var request = {
+      url : "/taServices/etm/isSessionAlive",
+      param : {},
+
+      isSystemErrorHandler : function() {return true;},
+      isApplicationErrorHandler : function() {return false;},
+      onSuccess : function(data) {
+         $('body').css('display', 'block'); //show page back if request passed authentication
+         SESSION.setIsValid(true);
+      }
+   };
+   //this is a bad thing but request should prevent a page from drawing itself
+   //so it is blocking
+   WB_AJAX.doSynchronousGet(request);
+}
+
+
+var windowWidth = $(window).width(); // retrieve current window width
+var windowHeight = $(window).height(); // retrieve current window width
+var menu_step = 100;
+var main_menu = 'ul.main-menu';
+var ISO_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
+
+// Get the UTC date given a normal date
+function getUTC(inputDate) {
+
+   var utcInputDateUTC = Date.UTC(inputDate.getUTCFullYear(), 
+                               inputDate.getUTCMonth(), 
+                               inputDate.getUTCDate(), 
+                               inputDate.getUTCHours(),
+                               inputDate.getUTCMinutes(),
+                               inputDate.getUTCSeconds(), 
+                               inputDate.getUTCMilliseconds());
+   return utcInputDateUTC;
+}
+
+// Gets the local DST and time settings (needed for CLIENT_BROWSER mode)
+// and calls server code to synchronise the local "clock" time with the server
+// It receives a JSON object in return containing the number of milliseconds
+// since 1970 representing the time with the offset built in, plus the amount
+// of milliseconds until the next DST transition when the server time must be checked
+// again. This allows the server side code to handle the complex DST rules
+// rather trying to achieve that in JavaScript
+// allows a synchronous call to service on initial load
+function synchClockTime(asynchronous) {      
+   var tzOffset = ($("[name=tzOffset]").val() == "" ? 0 : $("[name=tzOffset]").val());
+   var rightNowInDST = ($("[name=rightNowInDST]").val() == "T" ? true : false);
+   var tzDSTObserved = ($("[name=tzDSTObserved]").val() == "T" ? true : false);
+   var rawOffset = ($("[name=rawOffset]").val() == "" ? 0 : $("[name=rawOffset]").val());
+   var contextPath = $("[name=contextPathParam]").val();
+   
+   var paramData = {
+      tzOffSet : tzOffset,
+      rightNowInDST : rightNowInDST,
+      tzDSTObserved : tzDSTObserved,
+      rawOffset : rawOffset
+   };
+
+   $.ajax({
+      type : 'GET',
+      url : contextPath + "/platformAppsServices/gettimeanddst",
+      data : paramData,
+      contentType : "application/json; charset=utf-8",
+      dataType : "json", // data type of response
+      cache: false, // because IE aggressively caches ajax calls
+      success : function(data) {
+         $("[name=lastServerTime]").val(data.lastServerTime);
+         $("[name=timeToNextDstTransition]").val(data.timeToNextDstTransition);
+         $("[name=initialCurrentTime]").val(getUTC(new Date()));
+      },
+      error : function(fail) {
+         $("[name=lastServerTime]").val("");
+         $("[name=timeToNextDstTransition]").val(0);
+         $("[name=initialCurrentTime]").val("");
+      },
+      async : asynchronous
+   });
+   
+}
+
+// Updates the server clock
+// Finds the local time in milliseconds and then calculates the difference
+// between that and the first local time. It then adds on the difference to
+// the last server time to get the "current" adjusted server time...
+// This then updates the clock div with the formatted time / date
+function updateClockTime(callSelf) {
+   var initialCurrentTimeUTC = parseInt($("[name=initialCurrentTime]").val());
+   var lastServerTime = $("[name=lastServerTime]").val();
+
+   var timeFormatString = $("[name=clockTimeFormat]").val();
+   var timeInvalidFormatString = $("[name=clockTimeInvalidFormat]").val();
+   var formatter = new DateFormatter(timeFormatString);
+   formatter.setLocale(localeData);
+
+   var aDate = formatter.parse(timeFormatString);
+
+   if (aDate != 0) {
+      $("#etm-clock-time").text(timeInvalidFormatString);
+   } else {
+      var currentTimeUTC = getUTC(new Date());
+      var diff = (currentTimeUTC - initialCurrentTimeUTC);
+
+      var lastServerDateTime = new Date();
+      var calculatedTime = new Date();
+
+      // Check for error in AJAX call
+      if (lastServerTime != ""){
+         lastServerDateTime =  new DateFormatter(ISO_DATE_FORMAT).parse(lastServerTime);
+         calculatedTime = new Date(lastServerDateTime.getTime() + diff);
+      }
+      
+      // Covers the case when a completely invalid time formatting
+      // string is entered. In this case the format string is returned
+      // when trying to format the date.
+      if (timeFormatString == formatter.format(calculatedTime)){
+         $("#etm-clock-time").text(timeInvalidFormatString);         
+      } else {
+         $("#etm-clock-time").text(formatter.format(calculatedTime));
+
+         if (callSelf) {
+            setTimeout(function(){updateClockTime(true);}, 1000);
+         }         
+      }
+   }
+
+}
+
+// Removes URL parameter.
+// Used to remove config=true or false
+function removeURLParam(url, param) {
+   var urlparts = url.split('?');
+
+   if (urlparts.length >= 2) {
+
+      var prefix = encodeURIComponent(param) + '=';
+      var pars = urlparts[1].split(/[&;]/g);
+
+      for ( var i = pars.length; i--; i > 0) {
+         if (pars[i].indexOf(prefix, 0) == 0)
+            pars.splice(i, 1);
+      }
+      if (pars.length > 0)
+         return urlparts[0] + '?' + pars.join('&');
+      else
+         return urlparts[0];
+   } else {
+      return url;
+   }
+}
+
+// Change to config mode and refresh the pages
+function refreshF(configMode) {
+   var url = window.self.location.href;
+
+   if (url.indexOf("etm/", url.length - "etm/".length) !== -1) {
+      url = url + "etmMenu.jsp";
+   }
+
+   url = removeURLParam(url, "config");
+
+   if (url.indexOf("?") > -1) {
+      url = url + '&config=' + configMode;
+   } else {
+      url = url + '?config=' + configMode;
+   }
+   setLocationAndClearFrame("", url);
+}
+
+function setLocationAndClearFrame(contextPath, locationString) {
+    var tgtUrl = ""; // empty string reloads the current page
+    if (locationString) {
+        tgtUrl = contextPath + locationString;
+    }
+
+  if(jQuery.browser.msie && +jQuery.browser.version === 8) {
+     try {
+		location.href = tgtUrl;
+	 } catch (err){
+	 }
+  } else {
+	location.href = tgtUrl;
+  }
+}
+
+function hideControls() {
+   var headerW = $('#header').outerWidth(true);
+   var homeW = $('#home_container').outerWidth(true);
+   var empW = $('#employee_container').outerWidth(true);
+   var totalControlW = homeW + empW;
+
+   if (headerW <= totalControlW) {
+      $('#employee_container').hide();
+      if (headerW <= empW) {
+         $('#home_container').hide();
+      }
+   } else {
+      $('#home_container').show();
+      $('#employee_container').show();
+   }
+}
+
+function setupServerClock() {
+   // Initialize after first load
+   $("#etm-clock-time").text("");
+
+   // Update the clock on-load and
+   // do initial update to show time
+   synchClockTime(false);
+   updateClockTime(false);
+
+   // Update the clock periodically with the fresh time
+   // taken from elapsed JavaScript dates
+   setTimeout(function(){updateClockTime(true)}, 1000);
+
+   if (parseInt($("[name=timeToNextDstTransition]").val()) > 0) {
+      // Synchronise the clocks at the DST change if page is not refreshed
+      // only if the local time zone observes DST.
+      // Add X seconds to ensure the transition has happened
+      setTimeout(function(){synchClockTime(true);}, parseInt($("[name=timeToNextDstTransition]").val()) + 1000);
+   }
+}
+
+// function getTimeZoneData() return an array holding 4 values:
+// the first is rightNowOffsetFromUTC,
+// the second is if rightNowIsInDST,
+// the third is isDSTObserved,
+// the fourth is the time offset of current timezone from UTC without DST observed.
+function getTimeZoneData() {
+   var result = new Array();
+   var inDST = 'F';
+   var dstObserved = 'F';
+   var offsetWithDSTInEffect = 0;
+   var rawOffset = 0; // offset value without DST observed
+   var rightNow = new Date();
+   var rightNowOffset = -1 * rightNow.getTimezoneOffset() * 60 * 1000;
+   result[0] = rightNowOffset;
+   var januaryFirstOffset = getOffsetOnGivenMonth(0);
+   var julyFirstOffset = getOffsetOnGivenMonth(6);
+   
+   if (januaryFirstOffset == julyFirstOffset) {
+      rawOffset = januaryFirstOffset;
+   } else {
+      // Daylight Saving Time is observed here:
+      dstObserved = 'T';
+      if (januaryFirstOffset < julyFirstOffset) {
+         // Northern Hemisphere
+         offsetWithDSTInEffect = julyFirstOffset;
+         rawOffset = januaryFirstOffset;
+      } else {
+         // Southern Hemisphere
+         offsetWithDSTInEffect = januaryFirstOffset;
+         rawOffset = julyFirstOffset;
+      }
+      if (offsetWithDSTInEffect == rightNowOffset) {
+         inDST = 'T';
+      }
+   }
+   result[1] = inDST;
+   result[2] = dstObserved;
+   result[3] = rawOffset;
+   return result;
+}
+
+// getOffsetOnGivenMonth(monthNumber) return the timezone offset of the begining
+// of first day in given month,
+// monthNumber -- 0 is January, 11 is December
+function getOffsetOnGivenMonth(monthNumber) {
+   var rightNow = new Date();
+   var firstDayOfMonth = new Date(rightNow.getFullYear(), monthNumber, 1, 0, 0, 0, 0);
+   var utcOfFirstDayOfMonth = new Date(firstDayOfMonth.getUTCFullYear(),
+                                       firstDayOfMonth.getUTCMonth(), 
+                                       firstDayOfMonth.getUTCDate(),
+                                       firstDayOfMonth.getUTCHours(), 
+                                       firstDayOfMonth.getUTCMinutes(),
+                                       firstDayOfMonth.getUTCSeconds(), 
+                                       firstDayOfMonth.getUTCMilliseconds());
+   var offset = firstDayOfMonth - utcOfFirstDayOfMonth;
+   return offset;
+}
+
+// Initialise the client side TZ values
+function setDefaultTimeZoneValues() {
+   document.forms[0].tzOffset.value = "";
+   document.forms[0].rightNowInDST.value = "";
+   document.forms[0].tzDSTObserved.value = "";
+   document.forms[0].rawOffset.value = "";
+}
+
+// Assign the time zone values to the form on initial load
+function assignTimeZoneValues() {
+   var timeZoneData = getTimeZoneData();
+   document.forms[0].tzOffset.value = timeZoneData[0];
+   document.forms[0].rightNowInDST.value = timeZoneData[1];
+   document.forms[0].tzDSTObserved.value = timeZoneData[2];
+   document.forms[0].rawOffset.value = timeZoneData[3];
+}
+
+function scrollMainMenuLeft(){
+    scrollMainMenu("left");
+}
+
+function scrollMainMenuRight(){
+    scrollMainMenu("right");
+}
+
+function scrollMainMenu(direction){
+   
+    var currLeft = $(main_menu).position().left;
+    var windowWidth    = $(".nav").width();
+    var controlsMenuWidth = $(".controls-menu").width(); 
+    var step = menu_step;
+    
+    var contentWidth = 0;
+    $(".main-menu li").each(function(){
+       contentWidth  += $(this).outerWidth();
+    });
+
+    var menuDisplayArea = windowWidth - controlsMenuWidth; 
+
+    if (direction == 'left') {
+       if (contentWidth + currLeft > menuDisplayArea) {
+          $(main_menu).stop().animate({"left": "-=" + step + "px"}, "slow");
+       }
+    } else {
+       if (currLeft < 0) {
+          step = Math.abs(currLeft) < menu_step ? Math.abs(currLeft) : menu_step;
+          $(main_menu).stop().animate({"left": "+=" + step + "px"}, "slow");
+       }
+    }
+}
+
+function centreWidgets() {
+   var homePageFooterHeight = $('#etmMenuFooter').height();
+   var homePageHeight = getViewPortHeight() - homePageFooterHeight;
+   var widgetContainer = $('#home-body .widget-container');
+   var scheduleWidget = $('.widget-schedule');
+   var clockingWidget = $('.widget-clock');
+
+   var clockingWidgetExists = clockingWidget.length > 0;
+   var scheduleWidgetExists = scheduleWidget.length > 0;
+
+   widgetContainer.css({'visibility' : 'hidden'});
+   
+   if (clockingWidgetExists)
+      clockingWidget.css({'visibility' : 'hidden'});
+      
+   if (scheduleWidgetExists)
+      scheduleWidget.css({'visibility' : 'hidden'});
+   
+   // Find the space available above and below / left and right of 
+   // the widget container and add a margin to position widget to center
+   var marginTop = (homePageHeight - widgetContainer.height()) / 2;
+   marginTop = (marginTop < 0 ? 0 : marginTop);
+
+   var marginLeft = ($(window).width() - widgetContainer.width()) / 2;
+   marginLeft = (marginLeft < 0 ? 0 : marginLeft);
+   
+   // only try to size widget seperator and equalize widgets
+   // if both widgets exist / are being displayed
+   var bothWidgetsExist = (clockingWidgetExists && scheduleWidgetExists);
+   
+   if (bothWidgetsExist){
+     $('.message-bar').attr('style','height:auto'); // take the height of message into consideration
+     var maxWidgetHeight = Math.max(clockingWidget.height(), scheduleWidget.height());
+
+      // Size widget seperator to the size of the largest widget
+      $('#home-body .separator').height(maxWidgetHeight+3);
+   
+      // if one widget is bigger than another
+      if (clockingWidget.height() > scheduleWidget.height()){
+         clockingWidget.height(maxWidgetHeight);    
+         scheduleWidget.height(maxWidgetHeight - parseInt(scheduleWidget.css("padding-bottom").slice(0, -2)));    
+      } else {
+         clockingWidget.height(maxWidgetHeight);    
+         scheduleWidget.height(maxWidgetHeight);          
+      }
+   }
+
+   // Only show the widgets once their positioned is fixed.
+   // These are hidden initially.
+   widgetContainer.css({'marginLeft' : marginLeft + 'px',
+                        'marginTop' : marginTop + 'px',
+                        'visibility' : 'visible'});
+   scheduleWidget.css({'visibility' : 'visible'});
+   clockingWidget.css({'visibility' : 'visible'});      
+}
+
+function resetMenu(){
+   $(main_menu).css({'left' : 0});   
+}
+
+function setupMenuScrolling(){
+   $('ul.sf-menu li span.move-right a').click(function(){scrollMainMenuLeft()});
+   $('ul.sf-menu li span.move-left a').click(function(){scrollMainMenuRight()});      
+}
+function hideArrows(){
+    var windowWidth    = $(".nav").width();
+    var controlsMenuWidth = $(".controls-menu").width(); 
+    var contentWidth = 0;
+    $(".main-menu li").each(function(){
+       contentWidth  += $(this).outerWidth();
+    });
+    var menuDisplayArea = windowWidth - controlsMenuWidth; 
+	if(contentWidth > menuDisplayArea){
+		$('.chev_right ').show();
+		$('.chev_left').show();	
+		
+	}
+	else{
+		$('.chev_right').hide();
+		$('.chev_left').hide();
+	}
+	
+}
+function displayMessages(){
+   var msg = ($("[name=msg]").val() == "" ? "" : $("[name=msg]").val());
+   var pageFullyLoaded = ($("[name=pageFullyLoaded]").val() == "true" ? true : false);
+   var clientBrowserMode = ($("[name=clientBrowserMode]").val() == "true" ? true : false);
+   var clocksWidgetExists = ($("[name=clocksWidgetExists]").val() == "true" ? true : false);
+   
+   if (msg != ""){
+      if (clocksWidgetExists && clientBrowserMode){
+         if (pageFullyLoaded){
+            var returnValue = showAlert(JSVAR_ALERT_TITLE, msg, JSVAR_OK);
+            $("[name=msg]").val("");
+         }
+      } else {
+         var returnValue = showAlert(JSVAR_ALERT_TITLE, msg, JSVAR_OK);         
+         $("[name=msg]").val("");
+      }
+      
+   } else {
+      var pwdAlertMsg = ($("[name=pwdAlertMsg]").val() == "" ? "" : $("[name=pwdAlertMsg]").val());
+      var pwdExpDays = ($("[name=pwdExpDays]").val() == "" ? "" : $("[name=pwdExpDays]").val());
+      
+      if (pwdAlertMsg != ""){
+         if (clocksWidgetExists && clientBrowserMode){
+            if (pageFullyLoaded){
+               checkForPwdChange(pwdAlertMsg, pwdExpDays);                           
+            }
+         } else {
+            checkForPwdChange(pwdAlertMsg, pwdExpDays);                           
+         }    
+      }
+   }
+}
+
+$(function() {
+   centreWidgets();
+   setupMenuScrolling();
+   assignTimeZoneValues();
+   setupServerClock();
+   displayMessages();
+   hideArrows();
+});
+
+$(window).resize(function() {
+   centreWidgets();
+   resetMenu();
+   setupMenuScrolling();
+   hideControls();
+   hideArrows();
+});

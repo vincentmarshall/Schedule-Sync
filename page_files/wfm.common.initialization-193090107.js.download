@@ -1,0 +1,57 @@
+/*
+ * Copyright (c) Infor 2015. All rights reserved. www.infor.com
+ */
+
+(function( $ ) {
+  $(document).ready(function() {
+  
+    /**
+	* Begining of UX3 related initializations *
+	**/
+	
+    //Makes checkboxes structurally UX3 compliant by specifying a class to them and wrapping them with a special parent 
+	//only for those checkboxes which have not already been rendered that way.  And then activates those checkboxes by adding event handling.
+	//Being UX3 compiant : a crosscutting concern.    
+	$('input[type=checkbox]').wb_transformToUX3Checkbox();
+	
+	//UX3 - All radio buttons should take the style BUT, since there are around 250 buttons that would require to be reviewed,
+	//it will be done progressively by applying the specified class to the desired ones.
+	$('.wbInforRadioButton').wbInforRadioButton();
+
+	//Replaces 'title' attribute with 'wbTitle' attribute for those which have not already been rendered with 'wbTitle' attribute.
+	$("*[title]").each(function(){
+		var $this = $(this);
+		var tooltipMsg = $this.attr('title');
+		if(!isEmpty(tooltipMsg)) $this.removeAttr('title').attr('wbTitle',tooltipMsg);
+	});
+	
+	//Activates UX3 style tooltip. The plugin takes msg from 'wbTitle' attribute as default in case the attribute name is not passed. 
+	$("*[wbTitle]").wb_tooltip();
+
+	 /**
+	* End of UX3 related initializations *
+	**/
+	
+	/* Tab Entry/Exit focus is enabled/disabled on Infor Checkboxes */	
+	
+	$( 'input[type=checkbox]' ).focus(function() {
+		try{
+			if (this.parentNode.className.indexOf('inforCheckbox') > -1 ) {
+				addFocusForSpan(this, true);
+			}
+		}catch (e){
+			console.log("Exception in checkbox focus: " + e);
+		}
+	});
+	$( 'input[type=checkbox]' ).blur(function() {
+		try {
+			if (this.parentNode.className.indexOf('inforCheckbox') > -1 ) {
+				removeFocusForSpan(this, true);
+			}
+		}catch (e){
+			console.log("Exception in checkbox blur: " + e);
+		}
+	});
+	
+  });
+})( jQuery );

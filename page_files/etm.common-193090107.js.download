@@ -1,0 +1,297 @@
+/*
+ * Copyright (c) Infor 2012. All rights reserved. www.infor.com
+ */
+
+var SCROLL_BY_PIXELS = 75;
+
+function hasScrollbar(elementSelector) {
+   var elem = $(elementSelector);
+   var elemJs = elem.get(0);
+   var isScrolling = false;
+   if (elemJs.scrollHeight > elemJs.clientHeight){
+      isScrolling =  true;
+   }
+   
+   return isScrolling;
+}
+
+function Scroller(scrollContainerSelector,
+                  scrollControlsSelector,
+                  scrollContentSelector,
+                  scrollAreaHeight,
+                  scrollAreaHeightMax,
+                  scrollAdjustFactor,
+                  controlsSelector,
+                  controlsPadding,
+                  headerTable,
+                  mainContentSelector){
+   this.scrollContainerSelector = scrollContainerSelector;
+   this.scrollControlsSelector = scrollControlsSelector;
+   this.scrollContentSelector = scrollContentSelector;
+   this.scrollAreaHeight = scrollAreaHeight;
+   this.scrollAreaHeightMax = scrollAreaHeightMax;
+   this.scrollAdjustFactor = scrollAdjustFactor
+   this.controlsSelector = controlsSelector;
+   this.controlsPadding = controlsPadding;
+   this.headerTable = headerTable;
+   this.mainContentSelector = mainContentSelector;
+}
+
+Scroller.defaultScrollContainerSelector = "#scrollContainer";
+Scroller.defaultScrollControlsSelector = "#scrollControls";
+Scroller.defaultScrollContentSelector = Scroller.defaultScrollContainerSelector + " > table";
+Scroller.defaultScrollAdjustFactor = 5;
+Scroller.defaultControlsSelector = "#htmlButtonFooter";
+Scroller.defaultControlsPadding = 5;
+Scroller.defaultHeaderTable = "#htmlHeaderTable";
+Scroller.defaultMainContentSelector = "#etmContent";
+
+Scroller.prototype.getDefaultScrollAreaHeightMax = function(){
+   var headerTableHeight = 0;
+
+   if ($(Scroller.defaultHeaderTable).length > 0){
+      headerTableHeight = $(Scroller.defaultHeaderTable).outerHeight(true)
+   }
+   
+   var defaultShMax = getViewPortHeight() -  
+                      $(this.controlsSelector).height() -
+                      this.controlsPadding - 
+                      headerTableHeight;
+   return defaultShMax;
+}
+
+Scroller.prototype.getDefaultScrollAreaHeight = function(){
+   var defaultSah = $(this.scrollContentSelector).outerHeight(true);
+   
+   return defaultSah;
+}
+
+Scroller.prototype.isUndefined = function(instanceVariable){
+   var bIsUndefined = false;
+   if (typeof instanceVariable == "undefined" ||
+       instanceVariable == null){
+      bIsUndefined = true;
+   }
+   
+   return bIsUndefined;
+}
+
+Scroller.prototype.setDefaults = function(){
+   if (this.isUndefined(this.scrollContainerSelector)){
+      this.scrollContainerSelector = Scroller.defaultScrollContainerSelector;
+   }
+   if (this.isUndefined(this.scrollControlsSelector)){
+      this.scrollControlsSelector = Scroller.defaultScrollControlsSelector;
+   }
+   if (this.isUndefined(this.scrollContentSelector)){
+      this.scrollContentSelector = Scroller.defaultScrollContainerSelector + " > table";
+   }
+   if (this.isUndefined(this.scrollAreaHeight)){
+      this.scrollAreaHeight = this.getDefaultScrollAreaHeight;
+   }
+   if (this.isUndefined(this.scrollAreaHeightMax)){
+      this.scrollAreaHeightMax = this.getDefaultScrollAreaHeightMax;
+   }
+   if (this.isUndefined(this.scrollAdjustFactor)){
+      this.scrollAdjustFactor = Scroller.defaultScrollAdjustFactor;
+   }
+   if (this.isUndefined(this.controlsSelector)){
+      this.controlsSelector = Scroller.defaultControlsSelector;
+   }
+   if (this.isUndefined(this.controlsPadding)){
+      this.controlsPadding = Scroller.defaultControlsPadding;
+   }
+   if (this.isUndefined(this.headerTable)){
+      this.headerTable = Scroller.defaultHeaderTable;
+   }
+   if (this.isUndefined(this.mainContentSelector)){
+      this.mainContentSelector = Scroller.defaultMainContentSelector;
+   }
+}
+
+Scroller.prototype.getScrollAreaHeight = function(){
+   var saHeight = 0;
+   var sahType = typeof this.scrollAreaHeight;
+   
+   if (sahType == "function"){
+       saHeight = this.scrollAreaHeight();
+   } else if (sahType == "number"){
+      saHeight = this.scrollAreaHeight;
+   }
+   return saHeight;
+}
+
+Scroller.prototype.getScrollAreaHeightMax = function(){
+   var shMax = 0;
+   var shMaxType = typeof this.scrollAreaHeightMax;
+   
+   if (shMaxType == "function"){
+      shMax = this.scrollAreaHeightMax();
+   } else if (shMaxType == "number"){
+      shMax = this.scrollAreaHeightMax;
+   }
+   return shMax;
+}
+
+Scroller.prototype.scrollAndDisplayControls = function() {
+   var saHeight = Math.ceil(this.getScrollAreaHeight());
+   var shMax = Math.floor(this.getScrollAreaHeightMax()) - this.scrollAdjustFactor;
+
+   if (saHeight > shMax){      
+      $(this.scrollContainerSelector).css({"height" : shMax, "overflow" : "auto"});
+
+      if (hasScrollbar(this.scrollContainerSelector)){
+         $(this.scrollControlsSelector).css({visibility: "visible"});
+         this.isScrolling = true;         
+      }
+   } else {
+      $(this.scrollControlsSelector).css({visibility : "hidden"});         
+      $(this.scrollContainerSelector).css({"height" : "auto", 
+                                           "overflow-x" : "auto",
+                                           "overflow-y" : "hidden"});
+      this.isScrolling = false;
+   }
+}
+
+Scroller.prototype.sizeContentAreaAndControls = function(){
+   var viewPortHeight = getViewPortHeight();
+   var controls = $(this.controlsSelector);
+   var contentHeight = $(this.mainContentSelector).height();
+   var controlsHeight = controls.height() + this.controlsPadding;
+   var totalHeight = contentHeight + controlsHeight;
+   var spacerPadding = viewPortHeight - totalHeight;
+   // if the content + controls exceeds the viewport
+   // then just add back in the padding 
+   // that was there before, else add some padding to push the 
+   // controls down to the bottom of the viewport
+   // we hide them before the padding has been changed to ensure that
+   // the controls are seen jumping about.
+   if (controls.is(':visible')){
+      controls.css({"visibility" : "hidden"});      
+   }
+   
+   if (totalHeight <= viewPortHeight){
+      controls.css({"padding-top" : spacerPadding});      
+   } else {
+      controls.css({"padding-top" : this.controlsPadding});      
+   }
+   
+   // Simple setup. No buttons on page except those
+   // added for scrolling the content. Then we only
+   // display the buttons if the content is being scrolled.
+   if (this.controlsSelector == this.scrollControlsSelector){
+      if (this.isScrolling){
+         controls.css({"visibility" : "visible"});               
+      } else {
+         controls.css({"visibility" : "hidden"});               
+      }
+   } else {
+      controls.css({"visibility" : "visible"});      
+   }
+}
+
+Scroller.prototype.scrollAndControls = function(){
+   this.scrollAndDisplayControls();
+   this.sizeContentAreaAndControls();
+}
+
+Scroller.prototype.defaultScrollAndControls = function(scroller){
+   scroller.setDefaults();
+   
+   $(document).ready(
+      function(){
+         scroller.scrollAndDisplayControls();
+         scroller.sizeContentAreaAndControls();         
+      }
+   );
+   $(window).resize(
+         function(){
+            scroller.scrollAndDisplayControls();
+            scroller.sizeContentAreaAndControls();         
+         }
+   );
+}
+
+function enableButton(buttonText, enableButton){
+   var targetButton = $(".imageButton:contains('" + buttonText + "')");
+   var targetButtonClass = $(".imageButton:contains('" + buttonText + "') .buttonNavigationTextDisabled");
+   
+   if (enableButton){
+      targetButton.attr("onclick", targetButton.data("data-onclick"));
+      targetButtonClass.removeClass("buttonNavigationTextDisabled");
+      targetButtonClass.addClass(" buttonNavigationText");
+   } else {
+      targetButton.data("data-onclick", targetButton.attr("onclick"));
+      targetButton.attr("onclick", "");
+      targetButtonClass.removeClass("buttonNavigationText");
+      targetButtonClass.addClass("buttonNavigationTextDisabled");
+   }
+}
+
+function hiliteSelection(locDone, currentRow){
+    $('.etmDataPickerTable td').removeClass('dataPickerSelected'); 
+    currentRow.children().addClass('dataPickerSelected'); 
+    
+    enableButton(locDone, true);
+}
+
+function scrollUp(scrollContainerSelector){
+   scroll(scrollContainerSelector, -SCROLL_BY_PIXELS)
+}
+
+function scrollDown(scrollContainerSelector){
+   scroll(scrollContainerSelector, SCROLL_BY_PIXELS)
+}
+
+function scroll(scrollContainerSelector, scrollByPixels){
+   var scrollableObject = $(scrollContainerSelector);
+   var scrollTop = scrollableObject.scrollTop();
+   var newScrollTop = scrollTop + scrollByPixels;
+   
+   $(scrollableObject).stop().animate({scrollTop: newScrollTop});
+}
+
+function getMainMenuHeight(){
+   var mainMenuHeight = $("#header").height() + $(".nav").height() + $("#sub-menu").height();
+   
+   return mainMenuHeight;
+}
+
+function getViewPortHeight(scrollButtonSelector){
+
+   var windowHeight = $(window).height();
+
+   var viewPortHeight = windowHeight - 
+                        getMainMenuHeight();
+   return viewPortHeight;
+}
+
+function getHexBackgroundColor(domElement){
+   var rgb = $(domElement).css('background-color');
+   if (!rgb) {
+       return '#FFFFFF'; //default color
+   }
+   var hex_rgb = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/); 
+   function hex(x) {return ("0" + parseInt(x).toString(16)).slice(-2);}
+   if (hex_rgb) {
+       return "#" + hex(hex_rgb[1]) + hex(hex_rgb[2]) + hex(hex_rgb[3]);
+   } else {
+       return rgb; 
+   }
+}
+
+function getHexBackgroundColor(rgbElementColor){
+   var rgb = rgbElementColor;
+   if (rgb == "") {
+       return '#FFFFFF'; //default color
+   }
+   var hex_rgb = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/); 
+   function hex(x) {return ("0" + parseInt(x).toString(16)).slice(-2);}
+   if (hex_rgb) {
+       return "#" + hex(hex_rgb[1]) + hex(hex_rgb[2]) + hex(hex_rgb[3]);
+   } else {
+       return rgb;
+   }
+}
+
+

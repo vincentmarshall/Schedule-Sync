@@ -1,0 +1,2662 @@
+/*
+ * Copyright (c) Infor 2015. All rights reserved. www.infor.com
+ */
+
+INPUT,SELECT,TEXTAREA {
+    border-width: 1px;
+    border-style: solid;
+    border-color: #999 #CCC #999 #AAA;
+    border-radius: .2em;
+    box-shadow: 1px 1px 1px #EEEEEE inset;
+    color:#222;
+    background-color:white;
+    -moz-user-select: text;  
+    -webkit-user-select: text;  
+    -ms-user-select: text;    
+    -khtml-user-select: text;
+     user-select: text;
+     -o-user-select: text;    
+}
+
+INPUT:hover,SELECT:hover,TEXTAREA:hover {
+    border-color: #C66 #C88 #C88 #C66;
+    border-radius: .2em;
+    box-shadow: 1px 1px 1px #DCC inset,0px 0px 1px #DCC;
+}
+
+INPUT {
+   padding: 2px;	
+}
+
+A.message_configurer {
+	display: inline;
+	padding: 0px;
+	margin: 0px;
+	background-image: none
+}
+
+A.field_configurer {
+	display: inline;
+	padding: 0px;
+	margin: 0px;
+	background-image: none
+}
+
+A.security_configurer {
+	display: inline;
+	padding: 0px;
+	margin: 0px;
+	background-image: none
+}
+
+.loggedInUser {
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 10pt;
+	font-weight: bold;
+	color: white;
+}
+
+.pageMessageText {
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 10pt;
+	font-weight: bold;
+	color: white;
+}
+
+.contentText {
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 8pt;
+	color: black;
+}
+
+.buttonText {
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 16pt;
+	color: MidnightBlue;
+}
+
+.calWeekDayHeader {
+	color: #666666;
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 10pt;
+	background: #white;
+    border: solid #d9d9d9 1px;
+}
+.Rectangle1  {
+	color: #666666;
+	background: #E6E6E6 !important;
+	border:0 !important;
+   
+}
+.Rectangle1 .Label2 {
+	color: #666666;
+	background: #E6E6E6;
+   
+}
+
+.etmScheduleTable {
+   width: 98%;
+   background-color: white;
+   margin: 0 auto;
+   font-family: Helvetica, Arial, sans-serif;
+   border-spacing: 0px;
+   border-collapse: collapse;
+}
+
+table.etmScheduleTable > tbody > tr > td, table.etmScheduleTable > tbody > th > td  {
+	border: solid #d9d9d9 1px;
+}
+
+table.etmScheduleTable > tbody > tr > td.etmTnsDaySep {
+	border: solid #d9d9d9 0px;
+}
+
+
+table.etmScheduleTable > tbody > tr:first-child > td:first-child {
+    border-top-left-radius: 5px;
+}
+table.etmScheduleTable > tbody > tr:first-child > td:last-child {
+    border-top-right-radius: 5px;
+}
+table.etmScheduleTable > tbody > tr:first-child > th:first-child {
+    border-top-left-radius: 5px;
+}
+table.etmScheduleTable > tbody > tr:first-child > th:last-child {
+    border-top-right-radius: 5px;
+}
+table.etmScheduleTable > tbody > tr:last-child > td:first-child {
+    border-bottom-left-radius: 5px;
+}
+table.etmScheduleTable > tbody > tr:last-child > td:last-child {
+    border-bottom-right-radius: 5px;
+}
+
+body.etmTnsDay .etmScheduleTable {
+   background-color: white;
+} 
+
+body.etmTnsDay .etmScheduleTable th.previousOrNextDay, 
+body.etmTnsDay .etmScheduleTable th.currentDay {
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+body.etmTnsDay .etmScheduleTable td.previousOrNextDay, 
+body.etmTnsDay .etmScheduleTable td.currentDay {
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+body.etmTnsTeam .etmScheduleTable td {
+   text-align: left;
+   vertical-align: middle;
+   padding: 3px;
+}
+
+body.etmTnsTeam .etmScheduleTable {
+   cursor-style: default
+}
+
+.etmScheduleTable .calendarCurrentDay  {
+   background-color: #96cc28;
+   color: white !important;
+}
+
+.etmScheduleTable td.calendarCurrentDay div {
+    color: white !important;
+}
+
+.etmScheduleTable td.calendarCurrentDay div div {
+    color: white !important;
+}
+.etmScheduleTable th {
+   text-align: center;
+}
+
+.etmMessageTable {
+   width: 98%;
+   background-color: white;
+   margin: 0 auto;
+   font-family: Helvetica, Arial, sans-serif;
+   border-radius: 5px;
+   margin-top: 10px;
+   border-spacing: 0px;
+   text-align: left;
+   border-bottom: 1px solid #d9d9d9;
+}
+
+table.etmMessageTable > tbody > tr > th {
+   padding: 3px;    
+}
+
+table.etmMessageTable > tbody > tr > td {
+   padding: 3px;
+   border-bottom: 1px solid #d9d9d9; 
+}
+
+table.etmMessageTable > tbody > tr > td:not(th) {
+   border-top: 1px solid #fff;
+}
+
+table.etmMessageTable > tbody > tr > td.etmTableHeaderNoUpper {
+   border-top: none;
+   height: 40px;
+}
+
+table.etmMessageTable > tbody > tr > th.etmTableHeader, 
+table.etmMessageTable > tbody > tr > td.etmTableFooter
+{
+    height: 40px;
+}
+
+table.etmMessageTable > tbody > tr:first-child > th:first-child {
+    border-top-left-radius: 5px;
+}
+
+table.etmMessageTable > tbody > tr:first-child > th:last-child {
+    border-top-right-radius: 5px;
+}
+
+table.etmMessageTable > tbody > tr:first-child > td:first-child {
+    border-top-left-radius: 5px;
+}
+
+table.etmMessageTable > tbody > tr:first-child > td:last-child {
+    border-top-right-radius: 5px
+}
+
+table.etmMessageTable > tbody > tr:first-child > td:last-child {
+    border-top-right-radius: 5px
+}
+
+table.etmMessageTable > tbody > tr:last-child > td:first-child {
+    border-bottom-left-radius: 5px;
+}
+
+table.etmMessageTable > tbody > tr:last-child > td:last-child {
+    border-bottom-right-radius: 5px;
+}
+
+table.etmMessageTable > tbody > tr:hover > td:not(.etmTableFooter)
+{
+    background: #f2f2f2;
+}
+
+table.etmComposeReadMessageTable {
+   width: 98%;
+   margin: 0 auto;
+   font-family: Helvetica, Arial, sans-serif;
+   border-radius: 5px;
+   margin-top: 10px;
+   border-spacing: 0px;
+}
+
+table.etmComposeReadMessageTable > tbody > tr:first-child > td:first-child {
+    border-top-left-radius: 5px;
+}
+
+table.etmComposeReadMessageTable > tbody > tr:first-child > td:last-child {
+    border-top-right-radius: 5px
+}
+
+table.etmComposeReadMessageTable > tbody > tr:last-child > td:first-child {
+    border-bottom-left-radius: 5px;
+}
+
+table.etmComposeReadMessageTable > tbody > tr:last-child > td:last-child {
+    border-bottom-right-radius: 5px;
+}
+
+.etmComposeReadMessageTableHeader {
+    background: #d9d9d9;
+    background-repeat: repeat-x;
+}
+
+.etmComposeReadMessageTableHeaderNoShine {
+    background: #d9d9d9;
+}
+
+/* New ETM table styling */
+
+.etmTable {
+   min-width: 60%;
+   max-width: 98%;
+   background-color: white;
+   margin: 0 auto;
+   font-family: Helvetica, Arial, sans-serif;
+   border-radius: 5px;
+   margin-top: 10px;
+   padding: 0px;
+   border-spacing: 0px;
+   border-color: white;
+   text-align: left;
+}
+
+table.etmTable th {
+   padding: 8px;
+  
+   text-align: left;   
+}
+
+table.etmTable > tbody > tr > td {
+   padding: 8px;
+   border-top: 1px solid #fff;
+   text-align: left;   
+}
+
+table.etmTable > tbody > tr:hover > td:not(.etmTableFooter):not(.etmNoDataFound)
+{
+    background: #f2f2f2;
+}
+
+table.etmTable > tbody > tr > td:first-child {
+    padding: 8px 8px 8px 15px;
+}
+
+table.etmTable > tbody > tr > th:first-child {
+    padding: 8px 8px 8px 15px;
+}
+
+table.etmTable > tbody > tr:first-child > td:first-child {
+    border-top-left-radius: 5px;
+}
+table.etmTable > tbody > tr:first-child > td:last-child {
+    border-top-right-radius: 5px;
+}
+table.etmTable > tbody > tr:first-child > th:first-child {
+    border-top-left-radius: 5px;
+}
+table.etmTable > tbody > tr:first-child > th:last-child {
+    border-top-right-radius: 5px;
+}
+table.etmTable > tbody > tr:last-child > td:first-child {
+    border-bottom-left-radius: 5px;
+}
+table.etmTable > tbody > tr:last-child > td:last-child {
+    border-bottom-right-radius: 5px;
+}
+table.etmTable > tbody > tr > td.communicatorMessagePadded.etmNoDataFound {
+   text-align: center;   
+}
+.etmRtssTable {
+   width: 98%;
+   background-color: white;
+   margin: 0 auto;
+   font-family: Helvetica, Arial, sans-serif;
+   border-radius: 5px;
+   margin-top: 10px;
+   padding: 0px;
+   border-spacing: 0px;
+   border-color: white;
+   text-align: left;
+}
+
+table.etmRtssTable th {
+   padding: 3px;
+   background-repeat: repeat-x;
+   text-align: left;   
+}
+
+table.etmRtssTable > tbody > tr > td {
+   padding: 3px;
+   border-top: 1px solid #fff;
+   text-align: left;   
+}
+
+table.etmRtssTable > tbody > tr:first-child > td:first-child {
+    border-top-left-radius: 5px;
+}
+table.etmRtssTable > tbody > tr:first-child > th:first-child {
+    border-top-left-radius: 5px;
+}
+table.etmRtssTable > tbody > tr:last-child > td:first-child {
+    border-bottom-left-radius: 5px;
+}
+
+.etmPersonalInfoTable {
+   min-width: 60%;
+   max-width: 98%;
+   background-color: #F0F0F0;
+   margin: 0 auto;
+   font-family: Helvetica, Arial, sans-serif;
+   border-radius: 5px;
+   margin-top: 10px;
+   padding: 0px;
+   border-spacing: 0px;
+   border-color: white;
+   text-align: left;
+}
+
+table.etmPersonalInfoTable th {
+   padding: 8px;
+ 
+}
+
+table.etmPersonalInfoTable > tbody > tr > td {
+   padding: 8px;
+   border-top: 1px solid #fff;
+}
+
+table.etmPersonalInfoTable > tbody > tr:hover > td.employeeDataText:not(.etmTableFooter)
+{
+    background: #f2f2f2;
+}
+
+table.etmPersonalInfoTable > tbody > tr:hover > td.employeeDataHeadingNoShine:not(.etmTableFooter)
+{
+    background: #d9d9d9;
+}
+
+table.etmPersonalInfoTable > tbody > tr:first-child > th:first-child {
+    border-top-left-radius: 5px;
+}
+table.etmPersonalInfoTable > tbody > tr:first-child > th:last-child {
+    border-top-right-radius: 5px;
+}
+table.etmPersonalInfoTable > tbody > tr:last-child > td:first-child {
+    border-bottom-left-radius: 5px;
+}
+table.etmPersonalInfoTable > tbody > tr:last-child > td:last-child {
+    border-bottom-right-radius: 5px;
+}
+
+.etmTnsDetail .etmTable {
+    margin-top: 0px;	
+}
+
+body.etmDataPicker .htmlButtonTable {
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    padding-top: 0px;
+    width: 100%;
+}
+
+/* Exceptions to the table styling */
+body.etmDataPicker .htmlButtonTable tr:last-child td.htmlButtonCell:first-child {
+    border-bottom-left-radius: 5px;
+}
+body.etmDataPicker .htmlButtonTable tr:last-child td.htmlButtonCell:last-child {
+    border-bottom-right-radius: 5px;
+}
+
+body.etmDataPicker .etmTableHeaderNoUpper {
+   text-align: left;	
+}
+
+.calendarColWeekday, .calendarColWeekend {
+   background-color: #white;
+}
+
+.etmTitleTable {
+   width: 98%;
+   border-spacing: 1px;
+   margin: 0 auto;
+   padding-top: 10px;
+}
+/*header 12345678*/
+.etmTableHeader {
+    height: 30px;
+    color: #666666;
+    font-size: 10pt;
+    text-transform: none;
+    padding-left: 6px;
+    padding-right: 6px;
+    background: #d9d9d9;
+    text-align: left;
+}
+
+.etmTableFooter {
+    height: 30px;
+    background-color: #e5e5e5;
+    border-top: 1px solid #cccccc;
+}
+
+.etmTableHeaderNoUpper {
+    height: 30px;
+	 font-family: Helvetica, Arial, sans-serif;
+    background: #E6E6E6; color: #666666;
+}
+
+.etmTableHeaderBlank {
+	height: 30px;
+    background-color: transparent !important;
+}
+
+.etmPopupTableHeader {
+	height: 30px;	
+    color: #fff;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 14pt;
+    background: #d9d9d9;
+    background-repeat: repeat-x;
+}
+
+#scrollContainer {
+   position: relative;
+   width: 100%;    
+   overflow-x: auto; 
+   overflow-y: hidden;
+   margin: 0 auto;
+}
+
+.scrollControlsTable {
+   width: 100%;
+   margin: 0 auto;
+}
+
+#scrollControls {
+   visibility: hidden;
+}
+
+#htmlButtonFooter {
+  position: relative;   
+  clear: both;
+  visibility: hidden;
+}
+
+#htmlButtonFooter .htmlButtonTable {
+   padding: 0;	
+}
+
+#htmlButtonFooter .htmlButtonCell {
+  padding-top: 0;	
+  padding-bottom: 0;   
+}
+
+#htmlButtonFooter > tbody > tr > td {
+  padding-top: 0;   
+  padding-bottom: 0;   
+}
+
+table.etmTable > tbody > tr > td.htmlButtonCell {
+    border-bottom: 1px solid #d9d9d9; 
+}
+
+.etmTableDataText {
+    color: #494949;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 10pt;
+    font-weight: normal;
+    border-bottom: 1px solid #d9d9d9; 
+}
+
+.etmLeftPadded {
+    padding-left: 3px;
+}
+
+.etmRightPadded {
+    padding-left: 3px;
+}
+
+.calDateToday {
+	color: red;
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 8pt;
+	font-weight: bold;
+}
+
+.calDateHilite {
+	color: red;
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 8pt;
+	font-weight: bold;
+}
+
+.calDateNormal {
+	color: red;
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 8pt;
+}
+
+.calDateOutOfScope {
+	color: gray;
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 8pt;
+}
+
+.calCellFineData {
+	color: black;
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 8pt;
+}
+
+.calCellData {
+	color: black;
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 8pt;
+}
+
+.calTimeNotch {
+	color: black;
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 8pt;
+	white-space: nowrap;
+}
+
+.calTD-ShiftExists {
+	background-color: #d7ffde;
+}
+
+.calTD-NoShift {
+	background-color: white;
+}
+
+.calTD-LTA {
+	background-color: #fff29b;
+}
+
+.calTD-OutOfScope {
+	background-color: #f2f2f2;
+}
+
+.calTD-OutOfScopePadded {
+	background-color: #B8B8B8;
+	padding: 3px;
+}
+
+.calTeamSchedTitle {
+	color: black;
+	font-size: 10pt;
+	font-family: Helvetica, Arial, sans-serif;
+	font-weight: bold;
+}
+
+.calMonthTitle {
+	padding-left: 5px;
+	color: black;
+	font-size: 12pt;
+	font-family: Helvetica, Arial, sans-serif;
+	font-weight: bold;
+}
+
+.calYearTitle {
+	color: black;
+	font-size: 12pt;
+	font-family: Helvetica, Arial, sans-serif;
+	font-weight: bold;
+}
+
+.calTitle {
+	color: black;
+	font-size: 12pt;
+	font-family: Helvetica, Arial, sans-serif;
+	font-weight: bold;
+}
+
+.buttonNavigationText {
+	color: white;
+	font-size: 11pt;
+	font-family: Helvetica, Arial, sans-serif;
+	cursor: pointer;
+	text-align: center;
+	white-space: nowrap;
+	text-decoration: none;
+}
+
+.buttonNavigationTextDisabled {
+	color: #BBBBBB;
+	font-size: 11pt;
+	font-family: Helvetica, Arial, sans-serif;
+	cursor: default;
+	text-align: center;
+	white-space: nowrap;
+	text-decoration: none;
+}
+
+.selectedButton {
+	color: white;
+	font-weight: bold;
+}
+
+.TD-dataBlockDesc {
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 10pt;
+	font-weight: bold;
+	text-transform: uppercase;
+    border-bottom: 1px solid #d9d9d9;
+}
+
+.TD-dataBlockRowEven {
+	background-color: whitesmoke;
+}
+
+.TD-dataBlockRowOdd {
+	background-color: white;
+}
+
+.TD-dataBlockRowHeader {
+	color: white;
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 9pt;
+	font-weight: bold;
+	text-transform: uppercase;
+	background-color: grey;
+}
+
+
+.etmDataPickerTable {
+   margin: 0 auto;
+   font-size: 10pt;   
+   font-family: Helvetica, Arial, sans-serif;
+   border-spacing: 0px;
+}
+
+.etmDataPickerTable > tbody > tr > td {
+   padding: 8px;
+}
+
+table.etmDataPickerTable > tbody > tr > td:not(th) {
+   border-top: 1px solid #fff;
+}
+
+.filterTable {
+   background-color: #F0F0F0;
+   margin: 0 auto;
+   font-size: 11pt;   
+   font-family: Helvetica, Arial, sans-serif;
+   border-spacing: 0px;
+}
+
+.filterTable > tbody > tr > td {
+   padding: 8px;
+}
+
+table.filterTable > tbody > tr > td:not(th) {
+   border-top: 1px solid #fff;
+}
+
+body.etmDataPicker {
+   overflow: hidden;        	
+}
+
+body.etmDataPicker a {
+   text-decoration: none;
+}
+
+.etmDataPickerFooter {
+   border-top: 1px solid #fff;	
+   height: 3em;
+   background-color: #E0E0E0;
+}
+
+.dataPickerHilite {
+    background-color: #f2f2f2;
+}
+
+.dataPickerHeader {
+	color: #fff;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 14pt;
+    font-weight: bold;
+    text-align: left;
+    white-space: nowrap;
+    padding: 8px;
+    background: #d9d9d9;
+    background-repeat: repeat-x;
+}
+
+.dataPickerSelected {
+	background-color: #cccccc;
+	color: white !important;
+}
+
+.datarowContent {
+	color: black;
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 8pt;
+    border-bottom: 1px solid #d9d9d9;
+}
+
+.datarowContentLarge {
+    color: #fff;
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 12pt;
+    border-bottom: 1px solid #d9d9d9;
+	width: 100%;
+}
+
+.datarowContentLarge img {
+	display: block;
+}
+
+.datarowContentPadded {
+	color: #494949;
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 10pt;
+	padding: 3px;
+    border-bottom: 1px solid #d9d9d9;
+}
+
+.datarowContentRed {
+	color: red;
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 8pt;
+    border-bottom: 1px solid #d9d9d9;
+}
+
+.pageTitleSmall {
+	color: white;
+	font-size: 11pt;
+	font-family: Helvetica, Arial, sans-serif;
+}
+
+.pageTitleHilite {
+	color: black;
+	font-size: 14pt;
+	font-family: Helvetica, Arial, sans-serif;
+	font-weight: bold;
+}
+
+.pageTitleHiliteWhite {
+	font-size: 14pt;
+	font-family: Helvetica, Arial, sans-serif;
+	font-weight: bold;
+}
+
+.MSGListRowEven {
+	background-color: WhiteSmoke;
+	height: 48px;
+}
+
+.MSGListRowOdd {
+	background-color: white;
+	height: 48px;
+}
+
+.MSGreadTable {
+	border: white;
+	width: 100%;
+}
+
+.MSGinputBoxReadOnly {
+	background-color: white;
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 12pt;
+	color: black;
+}
+
+.MSGReadDate {
+    background-color: white;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 12pt;
+    color: black;
+}
+
+.MSGinputBox {
+	background-color: white;
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 12pt;
+	color: black;
+}
+
+.MSGSubject {
+   height: 46px;	
+}
+
+#MsgBody {
+   height: auto;
+   overflow: auto;	
+}
+
+.newMessages {
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 14pt;
+	color: #bf0000;
+	font-weight: bold;
+}
+
+.msgFilterHeader {
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 14pt;
+	color: white;
+	background: grey;
+}
+
+.msgFilterOdd {
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 14pt;
+	font-weight: bold;
+	text-transform: uppercase;
+    text-decoration: none;
+    color: black;
+	background: whitesmoke;
+}
+
+.msgFilterEven {
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 14pt;
+	font-weight: bold;
+	text-transform: uppercase;
+	text-decoration: none;
+	color: black;
+	background: white;
+}
+
+span.icon-delete-message {
+	background: url(images/icon-delete-message.png); 
+	width: 27px;
+	height: 27px;
+	float: left;
+	margin: 0px 7px 0px 8px;
+}
+
+.htmlButton {
+	cursor: pointer;
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 14pt;
+	color: navy;
+	font-weight: normal;
+	background-color: #8ECBFD;
+	border: medium outset;
+}
+
+.htmlButtonTable {
+   width: 98%;
+   background: transparent;
+   margin: 0 auto;
+   padding-top: 5px;
+}
+
+.htmlButtonTable a {
+   text-decoration: none;   
+}
+
+.htmlButtonCell {
+	padding: 4px;
+}
+
+.htmlButtonCell a {
+   text-decoration: none;   
+}
+
+.htmlButtonGroup {
+	float: left;
+	display: inline-block;
+	padding: 2px;
+}
+
+.htmlButtonGroup a {
+   text-decoration: none;   
+}
+
+.bottomPositioned {
+   height: 100%;
+   position: relative;
+   bottom : 0px; 
+   left: 0;
+   right: 0;
+   margin: 0 auto;
+}
+
+.shiftTradeShiftName {
+	color: black;
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 8pt;
+	font-weight: bold;
+}
+
+.shiftTradeShiftTime {
+	color: black;
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 8pt;
+}
+
+.shiftTradeListAction {
+	color: white;
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 8pt;
+	font-weight: bold;
+}
+
+.shiftTradePostAction {
+	color: red;
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 8pt;
+	font-weight: bold;
+}
+
+.shiftTradeListing {
+	border: 2px outset;
+	border-color: #8ECBFD;
+	background-color: #8ECBFD;
+	cursor: pointer;
+}
+
+.shiftTradePost {
+	border: 2px outset;
+	border-color: #d7ffde;
+	background-color: #d7ffde;
+	cursor: pointer;
+}
+
+.shiftTradePostRemoval {
+	border: 2px outset;
+	border-color: #ccccff;
+	background-color: #ccccff;
+	cursor: pointer;
+}
+
+.shiftTradePostFutureShift {
+	border: 2px outset;
+	border-color: #ccecff;
+	background-color: #ccecff;
+	cursor: pointer;
+}
+
+.communicatorMessage {
+	color: black;
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 14pt;
+	font-weight: normal;
+	margin-top: 20px;
+}
+
+.communicatorMessagePadded {
+	color: black;
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 14pt;
+	font-weight: normal;
+	margin-top: 20px;
+	padding: 3px
+}
+
+.msgListNew {
+	color: black;
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 8pt;
+	font-weight: bold;
+}
+
+.msgListOld {
+	color: black;
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 8pt;
+}
+
+.clocksMessage {
+	color: black;
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 14pt;
+	font-weight: normal;
+	margin-top: 20px;
+}
+
+.calendarDateCurrent {
+	color: black;
+	font-weight: bold;
+	font-size: 8pt;
+	font-family: Helvetica, Arial, sans-serif;
+}
+
+.calendarDateNormal {
+	color: black;
+	font-weight: normal;
+	font-size: 8pt;
+	font-family: Helvetica, Arial, sans-serif;
+	font-weight: bold;
+}
+
+.calendarCellDay {
+   font-family: Helvetica, Arial, sans-serif;
+   font-size: 10pt;
+   margin: 0px 0px 0px 3px;
+}
+
+.calendarCellEmpty {
+	color: black;
+	font-size: 7pt;
+	text-align: center;
+	text-decoration: none;
+	cursor: pointer;
+	background-color: transparent;	
+}
+
+.noShift {
+    color: black !important;
+    font-size: 7pt;
+    text-align: center;
+    text-decoration: none;
+    xbackground-color: #99AAFF;
+}
+
+.time.noShift {
+   margin-left: -10px;	
+}
+
+.calendarCellNoShift {
+    color: black !important;
+    font-size: 10pt;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+	background-color: white;
+}
+
+.calendarCellNoShift a {
+    text-decoration: none;
+    color: black;
+}
+
+.calendarCellEmpty a {
+	text-decoration: none;
+	color: black;
+}
+
+.etmTnsDay .calendarTextShiftName, 
+.etmTnsWeek .calendarTextShiftName {
+   font-size: 10pt;
+   font-weight: normal; 
+}
+
+.etmTnsDay .calendarCellVacation, 
+.etmTnsWeek .calendarCellVacation {
+   font-size: 10pt;
+   font-weight: normal;	
+}
+
+.calendarCellRegularCurrent {
+	color: white !important;
+	background-color: #96cc28;
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 7pt;
+	text-align: center;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+.calendarCellRegularCurrent a {
+	text-decoration: none;
+    color: white !important;
+}
+
+.calendarCellRegularCurrent span {
+    color: white !important;
+}
+
+.calendarCellRegularCurrent .overrideAsterisk {
+    color: white !important;	
+}
+
+.unauthHilite .overrideAsterisk {
+    color: white !important;    
+}
+
+.calendarCellRegularPast {
+	color: black;
+	background-color: #FFFFFF;
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 7pt;
+	text-align: center;g
+	cursor: pointer;
+	text-decoration: none;
+}
+
+span.calendarCellRegularPast a {
+	text-decoration: none;
+}
+
+td.calendarCellRegularPast a {
+	border: none;
+}
+
+.calendarCellRegularFuture {
+	background-color: #FFFFFF;
+	color: black;
+	cursor: pointer;
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 7pt;
+	text-align: center;
+	text-decoration: none;
+}
+
+.calendarCellRegularFuture a {
+	text-decoration: none;
+}
+
+.calendarCellVacation {
+	color: #7533a6;
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 8pt;
+	text-align: center;
+	cursor: pointer;
+	text-decoration: none;
+	font-weight: bold;
+	padding-left: 2px;
+	padding-right: 2px;
+}
+
+.calendarCellHoliday {
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 8pt;
+	text-align: center;
+	cursor: pointer;
+	text-decoration: none;
+	color: #ffaa00;
+	font-weight: bold;
+	padding-left: 2px;
+	padding-right: 2px;
+}
+
+.calendarCellUnknown {
+	background-color: white;
+	border-color: white;
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 7pt;
+	text-align: center;
+	cursor: pointer;
+	text-decoration: none;
+}
+
+.calendarTextShiftName {
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 9pt;
+	text-decoration: none;
+}
+
+.calendarTextShiftTime {
+	font-family: Helvetica, Arial, sans-serif;
+	color: black;
+	font-weight: normal;
+	text-decoration: none;
+}
+
+.calendarTextSchedDtl {
+	font-family: Helvetica, Arial, sans-serif;
+	color: black;
+	font-size: 6pt;
+	font-weight: normal;
+	text-decoration: none;
+}
+
+.etmTnsDay .calendarTextSchedDtl {
+    font-size: 8pt;
+}
+
+.calendarTextSchedDtlPast {
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 6pt;
+	font-weight: normal;
+	text-decoration: none;
+}
+
+.calendarTextSchedDtlCurrent {
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 6pt;
+	font-weight: normal;
+	text-decoration: none;
+}
+
+.calendarTextSchedDtlFuture {
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 6pt;
+	font-weight: normal;
+	text-decoration: none;
+}
+
+.calendarTextSchedDtlTime {
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 6pt;
+	font-weight: normal;
+	text-decoration: none;
+}
+
+.calendarTextTeamSchedDtlEven {
+	font-family: Helvetica, Arial, sans-serif;
+	color: black;
+	font-size: 6pt;
+	font-weight: normal;
+	text-decoration: none;
+}
+
+.calendarTextTeamSchedDtlOdd {
+	font-family: Helvetica, Arial, sans-serif;
+	color: black;
+	font-size: 6pt;
+	font-weight: normal;
+	text-decoration: none;
+}
+
+.calendarTextHolidayName {
+	font-size: 10pt;
+	font-family: Helvetica, Arial, sans-serif;
+	color: white;
+	font-weight: bold;
+	text-decoration: none;
+	background-color: #ffaa00;
+}
+
+hr {
+    height: 1px;
+    background: #ccc; 
+    color:#ccc;
+    border: none;
+    margin-bottom: 5px;
+}
+
+.calendarCellDay {
+ cursor: pointer;	
+}
+
+.unauthHilite {
+    xborder: solid #e63262 3px !important;
+	background-color: #e63262;
+    color: black !important; 
+}
+
+.unauthHilite div div {
+    color: white !important; 	
+}
+
+.unauthHilite .time {
+   color: white !important;	
+}
+
+.unauthHilite .calendarDateNormal {
+   color: white !important;
+}
+
+.shiftCrossesMidnight {
+	display: inline;
+	float: right;
+	padding-right: 5px;
+    background: url(images/icon-shift-over-midnight.png) no-repeat;     
+    width: 14px; 
+    height: 15px;
+}
+
+.dataRowBgOdd {
+	background-color: white;
+}
+
+.dataRowBgEven {
+	background-color: whitesmoke;
+}
+
+.employeeDataText {
+    background-color: white;
+	color: #494949;
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 10pt;
+	font-weight: normal;
+    padding-left: 10px;
+    border-bottom: 1px solid #d9d9d9;
+}
+
+.employeeDataHeading {
+    min-width: 15%;
+    max-width: 15%;
+    height: 30px;    
+    background-color: #d9d9d9;
+   	color: 666666;
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 10pt;
+	font-weight: bold;
+	text-align: right;
+	padding-left: 6px;
+	padding-right: 6px;
+    border-bottom: 1px solid #d9d9d9;
+}
+
+.employeeDataHeadingNoShine {
+	min-width: 15%;
+    max-width: 15%;
+    background: white;
+    color: black;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 10pt;
+    text-align: right;
+    padding-right: 8px;
+    border-bottom: 1px solid #d9d9d9;
+}
+
+
+.etmWarning {
+    color: red;
+}
+
+.tableHeader {
+	color: white;
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 9pt;
+	font-weight: normal;
+	text-transform: uppercase;
+	background-color: grey;
+	padding: 3px;
+	text-align: center;
+}
+
+.payCheckHeader {
+	color: black;
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 9pt;
+	font-weight: normal;
+	text-transform: uppercase;
+	background-color: #ffcc00;
+	padding: 3px;
+	text-align: center;
+}
+
+.payCheckDataText {
+	color: black;
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 8pt;
+	font-weight: normal;
+}
+
+.payCheckDataHeading {
+	color: black;
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 8pt;
+	font-weight: bold;
+}
+
+.MSGlookupFullname {
+	color: black;
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 13pt;
+	font-weight: normal;
+	padding: 3px;
+}
+
+.buttonAlertMedium {
+	height: 28px;
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 16px;
+	font-weight: normal;
+	color: white;
+	background-color: #B42A00;
+	text-decoration: none;
+	border-width: 1px;
+	background-image: url(../images/interface/gradButtonAlertSmall.gif);
+	border-color: #F3A78F #8A594A #8A594A #F3A78F;
+	letter-spacing: 1px;
+	padding-left: 3px;
+	padding-right: 3px;
+	cursor: pointer;
+	vertical-align: middle;
+}
+
+/* ----------------BUTTONS--------------- */
+
+BUTTON:hover, .buttonSmall:hover, .buttonMedium:hover, .buttonLarge:hover, INPUT.button:hover {
+    background-position: 0 -50px;
+}
+BUTTON:active, .buttonSmall:active, .buttonMedium:active, .buttonLarge:active, INPUT.button:active {
+    background-position: 0 -100px;
+}
+
+BUTTON, .buttonLarge, INPUT.button {
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 1.1em;
+    white-space: nowrap;
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 0.3em 0.3em 0.3em 0.3em;
+    height: 2.2em;
+    padding-left: .5em;
+    padding-right: .5em;
+    background: url("./images/inforFormButton_repeats.png") repeat-x scroll 0 0 transparent;
+    cursor: pointer
+}
+
+.buttonAlertSmall, .buttonSmall, .buttonMedium, .buttonLarge {
+   color: white !important;	
+}
+
+.buttonDisabled,.buttonDisabled:hover,.buttonDisabled:active {
+    background: url("./images/inforFormButton_repeats.png") repeat-x scroll 0 -150px transparent;
+    color: gray;
+    cursor: default;
+}
+
+.overrideAsterisk {
+	font-family: Helvetica, Arial, sans-serif;
+	color: black;
+	font-size: 14pt;
+}
+
+/* ---------------TABLES---------------- */
+table.generic {
+	border-style: solid;
+	border-width: 1px;
+	border-color: #004884
+}
+
+table.pageHeader td {
+	color: black;
+	font-size: 12pt;
+	text-align: left;
+	font-weight: normal;
+}
+
+table.none {
+	border-style: none;
+	border-width: 0;
+	padding: 0;
+	margin: 0;
+}
+
+table.none tr {
+	border-style: none;
+	border-width: 0;
+	padding: 0;
+	margin: 0;
+}
+
+table.none td {
+	border-style: none;
+	border-width: 0;
+	padding: 0;
+	margin: 0;
+}
+
+table.headerTable {
+	border-style: solid;
+	border-color: grey;
+	border-width: 1px 1px 0px 1px;
+}
+
+table.headerTable td {
+	padding-top: 2px;
+	padding-right: 5px;
+	padding-left: 12px;
+	color: #004884;
+	font-size: 12pt;
+	font-weight: bold;
+	font-family: Helvetica, Arial, sans-serif;
+}
+
+table.headerTable .sortName {
+	float: left;
+}
+
+table.headerTable .sortImage {
+	vertical-align: middle;
+	float: right;
+}
+
+.contentTableTitle {
+    padding-left: 5px;
+    color: #494949;
+    font-size: 14pt;
+    font-weight: bold;
+    font-family: Helvetica, Arial, sans-serif;
+    padding-top: 5px;
+}
+
+table.contentTable {
+	font-family: Helvetica, Arial, sans-serif;
+    font-size: 10pt;
+    width: 100%;
+    background-color: #E4E4E4;
+    border-spacing: 1px;
+    border-color: #E4E4E4;
+    margin: 0 auto;	
+}
+
+td.tfNormal {
+	background-color: #d9d9d9;
+	color: white;
+	font-size: 8pt;
+	border-style: solid;
+	border-width: 1px 0px 0px 0px;
+	border-color: grey;
+	padding: 1px;
+	padding-left: 4px;
+	padding-right: 4px;
+	vertical-align: middle;
+	font-family: Helvetica, Arial, sans-serif;
+}
+
+td.tsNormal {
+	background-color: #d9d9d9;
+	color: #000000;
+	font-size: 8pt;
+	border-style: solid;
+	border-width: 0px 0px 0px 0px;
+	border-color: grey;
+	padding: 1px;
+	padding-left: 2px;
+	padding-right: 2px;
+	vertical-align: middle;
+	font-family: Helvetica, Arial, sans-serif;
+}
+
+td.tfHilight {
+	background-color: #d9d9d9;
+	color: white;
+	font-size: 7pt;
+	border-style: solid;
+	border-width: 1px 0px 0px 0px;
+	border-color: grey;
+	padding: 1px;
+	padding-left: 4px;
+	padding-right: 4px;
+	vertical-align: middle;
+	font-family: Helvetica, Arial, sans-serif;
+}
+
+td.tsHilight {
+	background-color: #d9d9d9;
+	color: #000000;
+	font-size: 8pt;
+	border-style: solid;
+	border-width: 0px 0px 0px 0px;
+	border-color: grey;
+	padding: 1px;
+	padding-left: 4px;
+	padding-right: 4px;
+	vertical-align: middle;
+	font-family: Helvetica, Arial, sans-serif;
+}
+
+td.contentTable {
+	padding-top: 2px;
+	padding-right: 5px;
+	padding-left: 12px;
+	color: #004884;
+	font-family: Helvetica, Arial, sans-serif;
+    font-size: 10pt;
+}
+
+table.contentTable th {
+    color: #fff;
+	background-color: #d9d9d9;
+	font-weight: normal;
+	text-align: left;
+    padding: 4px;
+	border-style: solid;
+	border-width: 1px;
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 10pt;
+}
+
+table.contentTable th a {
+    color: #fff;
+    background-color: #d9d9d9;
+    text-align: center;
+    text-decoration: none;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 10pt;
+}
+
+th.contentTable {
+	color: white;
+	background-color: #d9d9d9;
+	font-weight: normal;
+	text-align: left;
+	padding: 4px;
+	border-style: solid;
+	border-width: 1px;
+	font-family: Helvetica, Arial, sans-serif;
+    font-size: 10pt;
+}
+
+
+table.contentTable tr.header {
+	background-color: #d9d9d9;
+}
+
+table.contentTable tr.oddRow {
+	background-color: whitesmoke;
+}
+
+table.contentTable tr.evenRow {
+	background-color: white;
+}
+
+table.contentTable > tbody > tr > td {
+	font-family: Helvetica, Arial, sans-serif;
+    padding: 4px;
+    text-align: left;       
+}
+
+.systemError table.contentTable {
+    width: 100%;
+    margin: 0 auto;
+}
+
+.systemError #viewDetails {
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 10pt;
+    color: black;
+    margin: 5px;
+}
+
+.systemError table.imageButton {
+    margin: 5px;
+}
+
+.inputField {
+    border-width: 1px;
+    border-style: solid;
+    border-color: #999 #CCC #999 #AAA;
+    border-radius: .2em;
+    box-shadow: 1px 1px 1px #EEEEEE inset;
+    font-family: Helvetica, Arial, sans-serif;
+    color:#222;
+    background-color:white;
+}
+
+.inputField:hover {
+    border-color: #C66 #C88 #C88 #C66;
+    border-radius: .2em;
+    box-shadow: 1px 1px 1px #DCC inset,0px 0px 1px #DCC;
+}
+
+.textAlert {
+	font-family: Helvetica, Arial, sans-serif;
+	color: red;
+	font-size: 10pt;
+}
+
+.linkDark {
+	color: #004884;
+	font-size: 10pt;
+	text-decoration: none;
+}
+
+a:hover.linkDark {
+	color: red;
+	font-size: 10pt;
+	text-decoration: none;
+}
+
+.cell {
+	border-top-width: 0;
+	border-left-width: 0;
+	border-right-width: 0;
+	border-bottom-width: 0;
+	cursor: pointer;
+	text-decoration: none;
+	color: white;
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 16pt;
+}
+
+.pageTitle {
+	padding-left: 5px;
+	color: #494949;
+	font-size: 14pt;
+	font-weight: bold;
+	font-family: Helvetica, Arial, sans-serif;
+}
+
+.pageHilite {
+	color: grey;
+	font-size: 12pt;
+	font-family: Helvetica, Arial, sans-serif;
+	font-weight: bold;
+}
+
+.pageHilite2 {
+	color: #000000;
+	font-size: 12pt;
+	font-family: Helvetica, Arial, sans-serif;
+	font-weight: bold;
+}
+
+.tableInfoHeader {
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 10pt;
+	color: white;
+	background-color: grey;
+	padding: 5px;
+	font-weight: bold;
+}
+
+.tableColumnHeader {
+	color: black;
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 9pt;
+	font-weight: normal;
+	text-transform: uppercase;
+	background-color: #ffcc00;
+	padding: 3px;
+}
+
+.tableTextCell {
+	color: black;
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 8pt;
+	padding: 3px;
+}
+
+.tableTextRowEven {
+	background-color: white;
+}
+
+.tableTextRowOdd {
+	background-color: whitesmoke;
+}
+
+.tableFooterRow {
+	background-color: grey
+}
+
+/* ---- Shift Trades ---- */
+.pShiftLbl {
+	background-color: white;
+	font-size: 8pt;
+	font-weight: bold;
+}
+
+.wShiftLbl {
+	background-color: red;
+	color: white;
+	font-size: 8pt;
+	font-weight: bold;
+}
+
+/* ---- start Availability ---- */
+.boldedLabel {
+	font-family: Helvetica, Arial, sans-serif;
+	color: black;
+	font-size: 10pt;
+	font-weight: bold;
+}
+
+.configMsg {
+	font-family: Helvetica, Arial, sans-serif;
+	color: red;
+	font-size: 10pt;
+	font-weight: bold;
+}
+
+.boldedLabelColHead {
+	font-family: Helvetica, Arial, sans-serif;
+    color: #666666;
+	font-size: 10pt;
+	font-weight: bold;
+    background-color: #E6E6E6;
+}
+
+.availData {
+	color: black;
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 9pt;
+	font-weight: normal;
+	margin-left:auto;
+	margin-right:auto;
+}
+
+.cellDataOvr {
+	color: black;
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 9pt;
+	font-weight: normal;
+}
+
+.cellDayNumber {
+	color: black;
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 8pt;
+	font-weight: bold;
+	text-align: left;
+}
+
+table.avTable {
+    width: 98%;
+    margin: 0 auto;
+    font-size: 10pt;
+    font-family: Helvetica, Arial, sans-serif;
+    border-spacing: 1px;
+    border-color: #F0F0F0;
+}
+
+table.avTable tr.colHeader {
+    color: #fff;
+    font-size: 10pt;
+    text-transform: uppercase;
+    background-color: #d9d9d9;
+}
+
+table.avTable td.calCelAVOver {
+    line-height: 1.7;
+	border: 1px outset;
+    font-size: 7pt;
+    font-family: Helvetica, Arial, sans-serif;
+	text-align: left;
+	text-decoration: none;
+}
+
+table.avTable td.calCelAV {
+	line-height: 1.7;
+	border: 1px outset;
+    border-color: #d9d9d9;
+    color: black;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 7pt;
+    text-align: left;
+	text-decoration: none;
+}
+
+table.avTable td.calCelUAOver {
+    line-height: 1.7;
+	border: 1px outset;
+    border-color: #d9d9d9;
+	background-color: #7533a6;
+    font-size: 7pt;
+    font-family: Helvetica, Arial, sans-serif;
+	text-align: left;
+	text-decoration: none;
+}
+
+table.avTable td.calCelUA {
+    line-height: 1.7;
+	border: 1px outset;
+    border-color: #d9d9d9;
+	color: black;
+	font-family: Helvetica, Arial, sans-serif;
+	text-align: left;
+	text-decoration: none;
+}
+
+table.avTable td.calCelOutOfScope {
+    line-height: 1.7;
+	border: 1px;
+    border-color: #d9d9d9;
+    background-color: #f2f2f2;
+	color: black;
+}
+
+table.avTable.etmTableHeader {
+   padding: 4px;	
+}
+
+/* ---- end Availability ---- */
+
+/* ---------------POPUP WINDOWS-------------------- */
+#popupCloseWindowLink {
+	position: absolute;
+	top: 0;
+	left: 0;
+	float: right;
+	margin: 10px;
+	white-space: nowrap;
+	z-index: 100;
+	color: white;
+	background-color: #737F8C;
+	font-size: 7pt;
+	vertical-align: middle;
+	line-height: 13px;
+}
+
+#popupCloseWindowLink A {
+	text-decoration: none;
+	color: #FFFFFF
+}
+
+#popupCloseWindowLink A:hover {
+	text-decoration: none;
+	color: #FFD988
+}
+
+/* ----------iframe popup styles---------- */
+.popup {
+	visibility: hidden;
+	position: absolute;
+}
+
+#TopFrame {
+	margin-top: 0;
+	display: block;
+}
+/* ----------Calendar styles---------- */
+.calendarPopup {
+	visibility: hidden;
+	position: absolute;
+}
+
+.calendarDay {
+	border: 1px solid #0000C0;
+	background: #FFE384;
+}
+
+.calendarToday {
+	border: 1px solid #0000C0;
+}
+
+.calendarGrid {
+	border: 1px solid #FFFFFF;
+}
+
+.calendarOut {
+	color: #C0C0C0 !important;
+}
+
+.tabText {
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 16pt;
+	color: #f8f8f8;
+	text-decoration: none;
+	background: #E4E4E4;
+}
+
+.tabTextActive {
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 16pt;
+	color: #333;
+	text-decoration: none;
+	background: #d9d9d9;
+}
+
+SPAN .tabText {
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 16pt;
+	color: white;
+	text-decoration: none;
+	white-space: nowrap;
+}
+
+SPAN .tabTextActive {
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 16pt;
+	background-color: #E4E4E4;
+	color: #333333;
+	text-decoration: none;
+	white-space: nowrap;
+}
+
+.tabText a {
+	text-decoration: none;
+}
+
+.tabTextActive a {
+	text-decoration: none;
+}
+
+.etmTopLeftCurve {
+    height: 40px !important;
+    border-top-left-radius: 5px;
+}
+
+.etmTopRightCurve {
+    border-top-right-radius: 5px;
+}
+
+.etmBottomLeftCurve {
+    height: 40px !important;
+    border-bottom-left-radius: 5px;
+}
+
+.etmBottomRightCurve {
+    border-bottom-right-radius: 5px;
+}
+
+.leftCurveSmall {
+	border-top-left-radius: 5px;
+}
+
+.rightCurveSmall {
+	border-top-right-radius: 5px;
+}
+
+.leftCurveLarge {
+	border-top-left-radius: 5px;
+}
+
+.rightCurveLarge {
+	border-top-right-radius: 5px;
+}
+
+.errMsg {
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 14pt;
+    font-weight: bold;	
+    color: red;
+    float: left;
+	position: absolute;
+	padding: 3px;
+}
+
+.pwdChangeRequired {
+    color: red;
+    font-size: 10pt;
+    text-align: left;
+    padding: 0px 6px 0px 6px;
+}
+
+body.etmConfigUtil {
+	margin: 0px;
+	padding: 0px;
+}
+
+body.etmConfigUtil .rootName {
+	margin: 5px;
+}
+
+body.etmConfigUtil .treeIcon {
+	margin-top: 5px;
+	margin-bottom: 5px;
+	margin-right: 3px;
+}
+
+body.etmConfigUtil .buttons {
+	text-decoration: none;
+}
+ 
+body.etmMsgCompose .composeLabel {
+	color: #444444;
+	width: 10%;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 12pt;
+}
+
+body.etmMsgCompose INPUT.MSGinputBox {
+	background-color: white;
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 12pt;
+	color: black;
+	width: 98%;
+	height: 25px;
+    margin-left: 10px;
+    padding: 3px;
+}
+
+body.etmMsgCompose .MSGToCc > table {
+   width: 100%;	
+   height: 100%;
+}
+
+body.etmMsgCompose textarea {
+    width: 100%;
+    background: #fafafa;
+    overflow: auto;
+    resize: none;
+    border-radius: 0px 0px 6px 5px;
+    border-width: 0px;
+}
+
+body.etmMsgCompose .fieldLabel {
+	color: #444444;
+	padding-right: 5px;
+	width: 10%;
+}
+
+body.etmMsgLookup a {
+    text-decoration: none;
+}
+
+body.etmMsgList .tableFixed {
+	table-layout: fixed;
+}
+
+body.etmMsgList .footer {
+	white-space: nowrap;
+	background-color: grey;
+	color: white;
+	font-size: 14pt;
+	font-family: Helvetica, Arial, sans-serif;
+}
+
+body.etmMsgRead .fieldLabel {
+	color: #444444;
+	padding-right: 8px;
+}
+
+body.etmMsgRead SPAN.MSGinputBoxReadOnly {
+	width: 100%;
+	border-color: white;
+	border-width: 1px;
+	border-style: solid;
+	padding: 5px 0px 0px 0px;
+}
+
+#msgContent {
+   background-color: whitesmoke;
+   padding-left: 8px;	
+}
+
+body.etmMsgRead INPUT.MSGinputBoxReadOnly {
+	width: 99%;
+}
+
+body.etmMsgRead INPUT.MSGReadDate {
+    width: 97.5%;
+}
+
+body.etmMsgCompose INPUT.MSGinputBoxReadOnly {
+    width: 98%;
+}
+
+body.etmMsgCompose INPUT.MSGinputBoxReadOnly {
+    width: 98%;
+}
+
+body.etmPwdChange {
+	color: black;
+	background-color: white;
+	font-family: Helvetica, Arial, sans-serif;
+}
+
+body.etmPwdChange .loginFieldHeader {
+	color: black;
+	font-size: 14pt;
+	font-family: Helvetica, Arial, sans-serif;
+	padding-right: 5px;
+}
+
+body.etmPwdChange .loginFieldText {
+	color: black;
+	font-size: 12pt;
+	font-family: Helvetica, Arial, sans-serif;
+	padding-right: 5px;
+}
+
+body.etmPwdChange .loginField {
+    color:#224d66;
+    width:175px; 
+    background-color:white; 
+    font-size:1.2em; 
+    border-width:1px; 
+    border-style:solid; 
+    border-color:#AAA #CCC #CCC #AAA; 
+    border-radius:.2em; 
+}
+
+td.loginLabel {
+	text-align: right;
+	width: 40%;
+	padding: 8px;
+	font-size: 1.1em;
+	font-weight: bold;
+	color: white;
+	font-family: Helvetica, Arial, sans-serif;
+}
+
+td.loginButton {
+	text-align: center;
+	padding: 8px;
+	font-size: 1.1em;
+	font-weight: bold;
+	color: white;
+	font-family: Helvetica, Arial, sans-serif;
+}
+
+td.loginButton a {
+	text-decoration: none;
+}
+
+td.localeSelect {
+	text-align: center;
+	padding: 8px;
+	padding-top: 30px;
+	font-size: 1.1em;
+	font-weight: bold;
+	color: white;
+	font-family: Helvetica, Arial, sans-serif;
+}
+
+.enterButton, .pwdForcedSubmitButton {
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 1em;
+	font-weight: bold;
+	white-space: nowrap;
+	color: white;
+	border-style: solid;
+	border-width: 1px;
+	border-color: #7C7C7C;
+	border-radius: 0.3em 0.3em 0.3em 0.3em;
+	height: 2em;
+	padding-left: .5em;
+	padding-right: .5em;
+	background: url("./images/inforFormButton_repeats.png") repeat-x scroll
+		0 0 transparent;
+	cursor: pointer;
+}
+
+body.etmFilter .filters {
+	cursor: pointer;
+}
+
+.etmHeader {
+	background-color: transparent;
+}
+
+.etmFooter {
+    color: #fff;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 10pt;
+    background-color: #d9d9d9;
+}
+
+.cursorStyle {
+	cursor: pointer;
+}
+
+.etmCheckBox {
+	width: 25px;
+	height: 25px;
+}
+
+.paddedLittle {
+	padding: 3px
+}
+
+.red {
+	color: red;
+}
+
+.loginNameMargin {
+	margin-right: 6px;
+	margin-top: 3px;
+}
+
+.linkLightMedium {
+	font-size: 8pt;
+}
+
+.noDecoration {
+	text-decoration: none;
+}
+
+.tabTable {
+	border-top-width: 0;
+	border-left-width: 0;
+	border-right-width: 0;
+	border-bottom-width: 0;
+	border-bottom-color: #0161B0;
+}
+
+.menuCell {
+	border-width: 0;
+}
+
+.spacer {
+	border-color: #0161B0;
+	border-top-width: 1px;
+	border-left-width: 0;
+	border-right-width: 0;
+	border-bottom-width: 0;
+	height: 1px;
+}
+
+.txtRed {
+	color: red;
+	font-size: 12pt;
+}
+
+.logoDimension {
+	width: 171px;
+	height: 28px;
+}
+
+.item {
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 9pt;
+	color: black;
+	margin-top: 12px;
+	margin-bottom: 12px;
+}
+
+.folder {
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 9pt;
+	color: black;
+	margin-top: 2px;
+	margin-bottom: 2px;
+	font-weight: bold;
+}
+
+.itemSpecial {
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 9pt;
+	color: #ff3300;
+	margin-top: 2px;
+	margin-bottom: 2px;
+}
+
+.itemTitle {
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 10pt;
+	color: black;
+	margin-top: 2px;
+	margin-bottom: 2px;
+	font-weight: bold;
+	text-decoration: none
+}
+
+.filters {
+	color: black;
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 12pt;
+	font-weight: bold;
+	text-transform: uppercase;
+}
+
+.dropDownFieldText {
+	color: #494949;
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 11pt;
+	font-weight: bold;
+}
+
+.record {
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 10pt;
+}
+
+.noDelimiters {
+	border: 0px;
+}
+
+.bigCxBx {
+	width: 30px;
+	height: 30px;
+}
+
+.ajaxLoader {
+   display:block;
+   margin: 0 auto;
+   vertical-align: middle;
+   background-position: center center;
+   background-repeat: no-repeat;
+   background-image: url('../../css/img/ajax-loader.gif');
+   background-color:transparent;
+   width: 100px;
+   height: 100px;
+}
+
+.DBLookupUIInput{
+  font-family: Helvetica, Arial, sans-serif;	
+}
+
+#contentDIV {
+   margin: 0 auto;
+}
+
+.alertPopupTitle {
+   color: #333333 !important;
+   font-family: Helvetica, Arial, sans-serif; 
+}
+
+.confirmPopupTitle {
+   color: #333333 !important;
+   font-family: Helvetica, Arial, sans-serif; 
+   font-weight: normal; 
+}
+
+.alertTitleIcon {
+	background: url(images/info-icon.png);
+	background-repeat: no-repeat;
+	display: table-cell;
+    vertical-align: middle;
+    float: left;
+    margin-top: 3px;
+    margin-right: 10px;
+    width: 23px; 
+    height: 23px;    
+}
+
+.confirmTitleIcon{
+	background: url(images/warn-icon.png);
+    background-repeat: no-repeat;   
+    display: table-cell; 
+    vertical-align: middle;
+    float: left;
+    margin-top: 3px;
+    margin-right: 10px;
+    width: 23px; 
+    height: 23px;    
+}
+
+#previousOrNextId table td {
+   cursor: default;	
+}
+
+#currentId table td {
+   cursor: default; 
+}
+
+.etmNoDataFound {
+   font-family: Helvetica, Arial, sans-serif;
+   font-weight: bold;
+}
+
+.crossMidnightIconSm  {
+	background:url('../images/availability/icon-over-midnight_sm.png');
+	background-repeat:no-repeat;
+    width: 14px;
+	height: 15px;
+	float: left	;
+}
+
+DIV.dblookupLayer {
+	min-width : 200px;
+	width : auto;
+	height : auto;
+	border : solid 1px #a0a0a0;
+	border-radius: 0.3em 0.3em 0.3em 0.3em;
+	box-shadow: 1px 1px 2px 1px rgba(128, 128, 128, 0.5);
+	background-color : #f4f4f4;
+	font-size : 11px;
+	font-family : verdana;
+	color : #000;
+	padding : 3px;
+	margin : 0px 3px 3px 0px;
+	position : absolute;
+	z-index: 10000;
+	outline: 0;
+}
+
+DIV.dblookupLayer TABLE.bottomDblookupSection SELECT.dblookupSelectBox {
+    font-size : 13px;
+    min-width : 200px;
+    width : 200px;
+    margin-top : 1px;
+    padding : 2px;
+}
+
+#ui_background_overlay{
+    display:none;
+    position: fixed;
+    z-index: 9999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000000;
+}
+
+DIV.dblookupLayer TABLE.dblookupSection {
+    width: 100%;
+    background-color: #E4E4E4;
+    border-spacing: 1px;
+    border-color: #E4E4E4;
+    border:1px solid #E7E7E7; 
+    border-collapse:collapse; 
+    margin-top:.1em;
+    margin-top:.1em;
+    position:static;
+    clear:left;
+}
+
+DIV.dblookupLayer TABLE.dblookupSection tr.oddRow {
+    background-color: white;
+}
+
+DIV.dblookupLayer TABLE.dblookupSection tr.evenRow {
+    background-color: white;
+}
+
+DIV.dblookupLayer TABLE.dblookupSection th  { 
+    color:#333333; 
+    background-color: #d9d9d9;
+    font-size:12pt; 
+    font-weight:normal; 
+    text-align:left; 
+    padding:4px; 
+    border-style:solid; 
+    border-width:1px; 
+    border-color:#dddddd; 
+    font-family:Verdana,Arial;
+    z-index:100
+}
+
+DIV.dblookupLayer table.dblookupSection th a {
+    color:#555555;
+    font-size: 12pt;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    font-family: Helvetica, Arial, sans-serif;
+}
+
+DIV.dblookupLayer TABLE.dblookupSection TH, TD A            { text-decoration:none; color:#224D66; font-size: 10pt; }
+DIV.dblookupLayer TABLE.dblookupSection TD A:hover          { text-decoration:underline; color:#224D66; font-size: 10pt; }
+DIV.dblookupLayer TABLE.dblookupSection TH A:focus  { outline:0 none; text-decoration:underline;}
+DIV.dblookupLayer TABLE.dblookupSection TD A:focus  { outline:0 none; }
+DIV.dblookupLayer TABLE.dblookupSection TD          { padding:4px; padding-left:2px; padding-right:5px; vertical-align:middle;}
+DIV.dblookupLayer TABLE.dblookupSection INPUT:focus { outline:0 none;}
+DIV.dblookupLayer TABLE.dblookupSection BUTTON:focus    { outline:0 none; text-decoration:underline;}
+DIV.dblookupLayer TABLE.dblookupSection SELECT:focus    { outline:0 none; border:1px solid #5555BB;}
+DIV.dblookupLayer TABLE.dblookupSection INPUT.smallcheckbox { height: 18px; width: 18px; padding:3px; border:3px; margin:5px; margin-left:8px;  outline:0 none;}
+
+DIV.dblookupLayer TABLE.topDblookupSection          { border-bottom-width:0px; border-radius: 0.3em 0.3em 0.3em 0.3em;}
+DIV.dblookupLayer TABLE.topDblookupSection TH           { border-bottom-width:1px; }
+DIV.dblookupLayer TABLE.bottomDblookupSection           { border-top-width:1px;}
+DIV.dblookupLayer TABLE.bottomDblookupSection TH        { background-color:#e6e6e6;}
+TABLE.dblTb     { border:0px !important; border-collapse: collapse !important; padding:0px !important; margin:0px !important; white-space:nowrap !important; text-align:left !important; vertical-align:middle !important; }
+TABLE.dblTb tr  { border:0px !important; padding:0px !important; margin:0px !important; }
+TABLE.dblTb td  { border:0px !important; padding:0px !important; margin:0px !important; }
+
+TABLE.dpTb,
+TABLE.dpTb tr,
+TABLE.dpTb td {
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+}
+
+INPUT.dblBt     { background-color:#ffffff; border:0px; vertical-align:middle; padding-left:0px; padding-right:0px; margin:0px; cursor:pointer; }
+
+.inforLookupButton
+{
+    background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAARklEQVQoz2PYsHnrfxIwAwM5GkjCDNRyEkk2wCSXI4ktJ6RhOZpmuCZcVv/HJYbLBpI1YHPSZELxgOzpzVB6JymRthOkCQDarXfuT8BGLAAAAABJRU5ErkJggg==");
+	background-position: 3px 4px;
+}
+
+.inforLookupButton:hover, .inforLookupButton.focus, .inforLookupButton:focus
+{
+    background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAAbUlEQVQoz2MQXfTlP7EYCBgYSNaQkV1MNCbPBmwSMNOwYQZsikFYY8qVhzAxEBsmjlWD7sRzn5A1I2vC6jlkxehiDNg8RrIGmPuRFetMOn8RrAFbSKB7Wm3ajRcgWnPKlV84NaBj1Wm33oA0AQDkyUeXst7uHwAAAABJRU5ErkJggg==");
+}
+
+.inforIconButton.delete,.inforIconButton.delete[disabled]:hover ,.inforIconButton.delete.viewOnly:hover 
+{ 
+	background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAQAQMAAAAcWtx5AAAABlBMVEUAAABoa3OsprG9AAAAAXRSTlMAQObYZgAAAB9JREFUeNpjkH/AYFHA8P8PCAFB/Q8QSpmBjiDi9h8AuMUSkXHZ3wMAAAAASUVORK5CYII=") center center no-repeat;
+}
+
+.inforIconButton.delete:hover, .inforIconButton.delete:active , .inforIconButton.delete:focus
+{ 
+	background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAQAQMAAAAcWtx5AAAABlBMVEUAAAATo/cd9CxzAAAAAXRSTlMAQObYZgAAAB9JREFUeNpjkH/AYFHA8P8PCAFB/Q8QSpmBjiDi9h8AuMUSkXHZ3wMAAAAASUVORK5CYII=") center center no-repeat;
+}
+
+.inforIconButton.copy,.inforIconButton.copy[disabled]:hover ,.inforIconButton.copy.viewOnly:hover
+{
+	background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAWElEQVR42mNgQAIZ2cX/CWEGXIAYzXgNIWQDQUNINQCvd0jxIkxyPzbc0NDAQtAAXJqRDGHCG2YwhWiSKIZQbAA2Q2hrADbDRoIBhDDe5IxPY3p28T58mgGmQi2LXJ+ayAAAAABJRU5ErkJggg==") center center no-repeat;
+}
+
+.inforIconButton.copy:hover, .inforIconButton.copy:active, .inforIconButton.copy:focus {
+	background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAW0lEQVR42mNgQALCi7//J4QZcAFiNOM1hJANBA0h1QC83iHFizDJ/dgww/7/LAQNwKUZbkjDfya8YQZXiCqJagilBmAzhLYGYDNsJBhAMD3gS854NS/6vg+fZgDKvmW19S7PRAAAAABJRU5ErkJggg==") center center no-repeat;
+}
+
+.etmMessageTable .inforIconButton.delete
+{ 
+	width: 34px;
+	height: 34px;
+}
+	
+.dblkpButton{
+	background-color: transparent;
+	width: 17px;
+	height: 15px;
+	background-repeat: no-repeat;
+	background-position: center;
+	padding: 0px;
+	margin: 0px;
+	vertical-align: middle;
+	cursor: pointer;
+	border: none;
+	position:relative;
+	left:-19px;
+	top:0px;
+}
+
+.dblTb input[type=text]{
+   position:relative;
+   padding-right:18px !important;
+}
+
+TABLE.dpTb input[type="text"],
+.DatePickerUIInput {
+    padding-right: 17px;
+}
+
+.etmComposeReadMessageTable #MsgBody  a{
+    text-decoration: underline;
+}
+
+.textDark {
+    color: black;
+}

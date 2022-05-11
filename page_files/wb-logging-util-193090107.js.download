@@ -1,0 +1,18 @@
+
+if (console){
+    //By default, disable logging
+    var emptyFunc = function(msg){};
+
+    if (console.log){
+        console.log = emptyFunc;
+    }
+    if (console.debug){
+        console.debug = emptyFunc;
+    }
+    if (console.info){
+        console.info = emptyFunc;
+    }
+    if (console.warn){
+        console.warn = emptyFunc;
+    }
+}

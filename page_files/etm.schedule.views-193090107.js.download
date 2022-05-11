@@ -1,0 +1,60 @@
+/*
+ * Copyright (c) Infor 2013. All rights reserved. www.infor.com
+ */
+
+function hidePreviousOrNext(submitFunction){
+   $(".previousOrNextDay").fadeTo("fast", 0, submitFunction);   
+}
+
+function hiliteUnauth(msgUnauth){
+   var td = $("td:contains('" + msgUnauth + "')");
+   td.addClass("unauthHilite");
+}
+
+function hiliteCurrentDay(){
+   $(".calendarCurrentDay").addClass("calendarCurrentDay"); 
+   $(".calendarCurrentDay div").addClass("calendarCurrentDay"); 
+   $(".calendarCurrentDay span").addClass("calendarCurrentDay"); 
+}
+
+function hiliteNotAssigned(){
+   $("div.calendarCellNoShift").parent().addClass("calendarCellNoShift");
+}
+
+function hiliteHoliday(){
+   var innerDiv = $("div.calendarTextHolidayName");
+   var parentHeader = innerDiv.parent();   
+   var borderRadius = parentHeader.css('border-top-left-radius');
+   innerDiv.css({"border-top-left-radius": borderRadius, "border-top-right-radius": borderRadius});
+   
+   parentHeader.addClass("calendarTextHolidayName");
+}
+
+function animateDayTransitions(){
+   $(".previousOrNextDay").css("opacity", 0).animate({opacity: 0.5}, "fast");        
+}
+
+function addBackgroundToDayCells(){
+   $("body.etmTnsDay .etmScheduleTable td").filter(function (){
+      var tdEle = $(this).parent();
+      return !$(this).hasClass("unauthHilite") &&
+             !$(this).hasClass("calendarCellNoShift") && 
+             !$(this).hasClass("calendarCurrentDay") &&
+             !$(this).hasClass("calendarTextHolidayName") &&
+             !$(this).hasClass("etmTnsDaySep");
+     }).css({'background-color' : "#FFFFFF"});
+}
+
+function standardizeRowHeights(tableClass){
+   var maxHeight = 0;
+
+   $(tableClass + " > tbody > tr:not(:first)").each(function(index){
+      if ($(this).height() > maxHeight){
+         maxHeight = $(this).height();
+      }
+   });
+
+   $(tableClass + "> tbody > tr:not(:first)").each(function(index){
+      $(this).height(maxHeight);
+   });
+}

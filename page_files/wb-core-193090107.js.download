@@ -1,0 +1,624 @@
+/*
+ * Copyright (c) Infor 2016. All rights reserved. www.infor.com
+ */
+
+WB_HELPER = (function($){
+    return {
+        /**
+         * Verifies if an object is invalid. An object is invalid when it is either null or undefined
+         * @param object
+         * @returns true if the object is invalid, false otherwise
+         */
+        isInvalid : function(object) {
+            return (object == null) || (object == undefined);
+        },
+        isEmpty : function (string){
+            if(this.isInvalid(string)){
+                return true;
+            }
+            return '' == String(string);
+        },
+        isDifferent : function (first, second){
+            if(this.isInvalid(first)) return !this.isInvalid(second);
+            if(this.isInvalid(second)) return true;			
+            return String(first) != String(second); 
+        },
+        clone : function (object) {
+            return JSON.parse(JSON.stringify(object));    
+        },
+        createCurrency : function (value, min, max, scale, precision) {
+            if(this.isEmpty(value)) value = '0';
+            if(this.isInvalid(min))  min  = -3.4028234663852886E38;
+            if(this.isInvalid(max))  max  =  3.4028234663852886E38;
+            if(this.isInvalid(scale))  scale  =  30;
+            if(this.isInvalid(precision))  precision  =  2;
+            value = parseFloat(value).toFixed(precision);
+            return createCurrency(value, min, max, scale, precision,  getLocalizedMessage_MAXIMUM_SCALE_30(),getLocalizedMessage_PRECISION_2());
+        },
+        createPercent : function (value, min, max, scale, precision) {
+            if(this.isEmpty(value)) value = '0';
+            if(this.isInvalid(min))  min  = -3.4028234663852886E38;
+            if(this.isInvalid(max))  max  =  3.4028234663852886E38;
+            if(this.isInvalid(scale))  scale  =  30;
+            if(this.isInvalid(precision))  precision  =  2;
+            value = parseFloat(value).toFixed(precision);
+            var maxScaleMsg = eval('getLocalizedMessage_MAXIMUM_SCALE_' + scale + '()');
+            var precisionMsg = eval('getLocalizedMessage_PRECISION_' + precision + '()');
+            return createPercent(value, min, max, scale, precision,  maxScaleMsg, precisionMsg);
+        },
+        checkMethods : function (object, methods, objectType){
+            for(var i = 0, j = methods.length; i < j; i++){
+                var method = methods[i];
+                if(typeof object[method] != 'function') {
+                    throw Error(objectType + " must have all of these methods : " + methods);
+                }
+            }
+        },
+    	createArray : function(){
+    		var array = new Array();
+    		/**
+        	 * IE8 does not have indexOf method
+        	 */
+    		if(typeof array['indexOf'] != 'function') {
+    			var helper = this;
+    			array.indexOf = function(item,start) {
+    				if(helper.isInvalid(start)){
+    					start = 0;
+    				}
+    				for (var i=start; i<this.length; i++){
+    					if (this[i] == item) return i;
+    				}
+    				return -1;
+    			}; 
+    		}
+    		return array;
+    	},
+    	createStringArray : function (objArray){
+    		var stringArray = this.createArray();
+    		if(!this.isInvalid(objArray)){
+    			for(var i = 0, j= objArray.length; i < j; i++){
+    				var item = objArray[i];
+    				stringArray.push(this.isInvalid(item) ? null : item.toString());
+    			}
+    		}
+    		return stringArray;
+    	},        
+        calcPopupPosition : function  (anchor, popup) {       
+             var $anchor = $(anchor);             
+             var anchorPos = $anchor.position();
+             var anchorWidth = $anchor.outerWidth();
+             var anchorHeight = $anchor.outerHeight();
+             
+             var $window = $(window);             
+             var viewportWidth = $window.width();
+             var viewportHeight = $window.height();
+             var scrollTop = $window.scrollTop();                   
+             var scrollLeft = $window.scrollLeft();      
+             
+             var $popup = $(popup);
+             var popupWidth = $popup.outerWidth();
+             var popupHeight = $popup.outerHeight();
+             
+             var margin = 10;
+             
+             var left = parseInt(anchorPos.left) + anchorWidth;
+             if(left + popupWidth + margin > (viewportWidth + scrollLeft))  {
+                 left = left - popupWidth - anchorWidth;
+             }
+             
+             var top = parseInt(anchorPos.top);
+             if(top + popupHeight + margin> (viewportHeight + scrollTop) )  {
+                 top = top - popupHeight + anchorHeight - margin;
+             }
+             
+             if(top <  scrollTop){
+                 top = scrollTop;
+             }
+             if(left < scrollLeft){
+                 left = scrollLeft;
+             }
+             
+             return {top : top , left : left};
+         }              
+            		
+    };
+    
+})(jQuery);
+
+WB_DATE_HELPER = (function($){
+    var SYSTEM_TIME_FORMAT = "yyyyMMdd HHmmss";
+    var MINUTE_MILLIES = 60000;
+    return {
+        getSystemTimeFormatter : function(){
+            return  new DateFormatter(SYSTEM_TIME_FORMAT);
+        },
+        getDifferenceInMinutes: function(startTimeSystemString, endTimeSystemString) {
+            var formatter = this.getSystemTimeFormatter();
+            var startTime = formatter.parse(startTimeSystemString);
+            var endTime = formatter.parse(endTimeSystemString);         
+            var diff = endTime.getTime() - startTime.getTime();         
+            return diff/ MINUTE_MILLIES;  //
+        },
+        addDays : function(date, days){
+            var newDate = new Date(date.getTime());
+            newDate.setDate(newDate.getDate() + days);
+            return this.systemTime(newDate);
+        },
+        systemTime : function(date) {
+            return this.getSystemTimeFormatter().format( date ? date : new Date());
+        },
+        parseSystemTime : function(systemTime){
+            return this.getSystemTimeFormatter().parse(systemTime);
+        },
+        translateTime : function (string, fromFormat, toFormat) {
+            var localeData = getLocaleData();
+            var formatter = new DateFormatter(toFormat);
+			if (localeData != null) {
+				formatter.setLocale(localeData);
+			}
+			return  formatter.format(new DateFormatter(fromFormat).parse(string));
+        },
+        toSystemTime : function (string, format) { 
+            return this.translateTime( string, format, SYSTEM_TIME_FORMAT);
+        },
+        fromSystemTime : function (string, format) { 
+            return this.translateTime( string, SYSTEM_TIME_FORMAT, format);
+        },
+		convertDateToServerTzDt: function(clientDate){
+			var utcwrkDtMilliSecs = clientDate.getTime() + (new Date().getTimezoneOffset() * 60000);
+			return new Date(utcwrkDtMilliSecs + serOffset);
+		}
+    };
+})(jQuery);
+
+WB_DIALOG = (function($){
+	var internal = {
+			$dialog : null,
+			$background : null,
+			selection : null,
+			okButton : null,
+			cancelButton:null,
+			init : function (){
+				if(this.$dialog == null) {
+					var dlg = $('.wbDialog');
+					if(dlg.length === 0){
+						$(document.body).append( '<div class="wbDialog"></div>');
+						$(document.body).append( '<div class="wbDialogBackground"></div>' );
+					}	
+					this.$dialog = $('.wbDialog');
+					this.$background = $('.wbDialogBackground');
+				}
+				this.$background.css('height', $(document).height());
+				
+			},
+			setDialogPosition : function( anchor) {
+			    var top = 200;
+                var left =150;
+                if (anchor){
+                    var rect = anchor.getBoundingClientRect();
+                    top = rect.top;
+                    left = rect.right + 15;
+                }
+    
+                var containerRect = this.$dialog.parent()[0].getBoundingClientRect();
+                
+                var height = this.$dialog.height();
+                var bottom = top + height;
+                if(containerRect.bottom < bottom && containerRect.height > height) {
+                    top = containerRect.bottom - 10 - height;                    
+                }
+                else if(top < 10) {
+                    top = 10;
+                }
+                
+                var width = this.$dialog.width();
+                var right  = left + width;                
+                if(containerRect.right < right && containerRect.width > width) {
+                    left = containerRect.right - 10 - width;
+                }
+                else if(left < 10) {
+                    left = 10;
+                }
+				else if(left > width) {
+                    left = left - (width-50);
+                }
+                this.$dialog.css('top', top).css('left', left);
+            },
+            showCustom: function(anchor, title, bodyTemplate, okHandler, cancelHandler){
+                WB_HELPER.checkMethods(okHandler, ['onSelected'] , 'Dialog OK Button Handler');
+                if(!WB_HELPER.isInvalid(cancelHandler)){
+                    WB_HELPER.checkMethods(okHandler, ['onSelected'] , 'Dialog Cancel Button Handler');
+                }                
+                
+                this.init();
+                this.selection = null;
+                var html =' <div class="wbDialogTitle" >' +title+ '</div><div class="wbDialogBody" ></div> <div class="wbDialogControl"><input type="button" /> <input type="button" /> </div>';
+                this.$dialog.html(html);
+                var bodyDiv = $('.wbDialogBody', this.$dialog)[0];
+                
+                
+                var bodyInstance = bodyTemplate.cloneNode(true);
+                bodyDiv.appendChild(bodyInstance);
+                      
+                this.setDialogPosition(anchor);
+
+                var controlsDiv = $('.wbDialogControl', this.$dialog)[0];
+                var buttons =  $('input', controlsDiv);
+                this.okButton = buttons[0];  
+                this.cancelButton = buttons[1];
+                
+                $(this.okButton).data("handler", okHandler);                
+                this.okButton.value  = (WB_HELPER.isEmpty(okHandler.label)) ? 'DEFAULT OK' : okHandler.label;
+                $(this.okButton).addClass('inforFormButton default');
+                
+                if(WB_HELPER.isInvalid(cancelHandler)){
+                    $(this.cancelButton).hide(); 
+                }
+                else {
+                    $(this.cancelButton).data("handler", cancelHandler);
+                    this.cancelButton.value = WB_HELPER.isEmpty(cancelHandler.label) ? 'DEFAULT CANCEL' : cancelHandler.label;
+                }
+                $(this.cancelButton).addClass('inforFormButton');
+                
+                var dialog = this;
+                buttons.click(function(event){
+                    event.preventDefault();                 
+                    dialog.hide(this);
+                    var handler = $(this).data("handler");
+                    if(!WB_HELPER.isInvalid(handler)) {
+                        handler.onSelected(bodyInstance);
+                    }                  
+                });                
+                           
+                $(bodyInstance).show();           
+                this.$dialog.show();
+                this.$background.show();                
+            },
+			show : function(anchor, title, body){
+				this.init();
+				this.selection = null;
+				this.$dialog.html('<h1>' + title + '</h1> <br></br>' + body + '<br/> <br/><br/> <input type="button" class="btn-secondary" value="OK" /><br/>');
+				
+				this.setDialogPosition(anchor);
+
+				var buttons =  $('input', this.$dialog);
+				var dialog = this;
+				buttons.click(function(event){
+					event.preventDefault();					
+					dialog.hide(this);
+				});
+				this.okButton = buttons[0];				
+				this.$dialog.show();
+				this.$background.show();
+				
+			},
+			hide : function(selection) {
+				if(this.$dialog){
+					this.$dialog.hide('fast');
+					this.$background.hide();
+				}
+				this.selection = selection;
+			},
+			showError : function(anchor, errorMsg){
+				var title = errorMsg.title;
+				var body = errorMsg.msg;
+				if (errorMsg.referenceId)  body+= (': ' + errorMsg.referenceId);
+				this.show(anchor, title, body);
+			},
+			isOKSelected : function (){return this.selection == this.okButton;}
+	};
+	function hideDialog(selection){
+		internal.hide(selection);
+	}
+	return {
+	    showCustom: function(anchor, title, body, okTitle, cancelTitle){ internal.showCustom(anchor, title, body, okTitle, cancelTitle);},
+		show : function(anchor, title, body){internal.show(anchor, title, body);},
+		/**
+		 * 
+		 * @param anchor
+		 * @param errorMsg an instance of com.workbrain2.platform.web.jaxrs.exception.ExceptionResultDto
+		 */
+		
+		showError : function (anchor, errorMsg) { internal.showError(anchor, errorMsg);},
+		hide : function() {internal.hide(null);},
+		isOKSelected : function (){return internal.isOKSelected();}
+	};
+	
+})(jQuery);
+
+WB_MODAL = (function($){
+	var internal = {
+			$background : null,
+			init : function (){
+				if(this.$background == null) {
+					var bckDlg = $('.wbDialogBackground');
+					if(bckDlg){
+						$(document.body).append( '<div id="dlBackGround" class="wbDialogBackground"></div>' );
+					}	
+					this.$background = $('.wbDialogBackground');
+				}
+				this.$background.css('height', $(document).height());				
+			},
+			setModal: function(){
+				this.init();
+				this.$background.show();
+				},
+			resetModal: function(){
+				this.init();
+				this.$background.hide();
+				}
+	};
+	return {
+		setModal: function(){return internal.setModal();},
+		resetModal: function(){return internal.resetModal();}
+	};
+	
+})(jQuery);
+
+
+WB_LOGGER = (function($){
+    var internal = {
+            isInvalid : function () { return ((typeof console == 'undefined') || (typeof console  == 'null'));},
+            validate : function(){ if(this.isInvalid()) throw 'WFM does not support console logging for this browser.';}
+    };
+    var crlf = /(\r\n|\n|\r|%0d|%0D|%0a|%0A)/gm;
+    //Make the methods more robust to support various browsers
+    return {
+        isLogging : function () { return !internal.isInvalid();},
+        log  : function (message) {if (!internal.isInvalid()) { console.log  (message ? message.replace(crlf, "") : ""); }},
+        warn : function (message) {if (!internal.isInvalid()) { console.warn (message ? message.replace(crlf, "") : ""); }},
+        error: function (message) {if (!internal.isInvalid()) { console.error(message ? message.replace(crlf, "") : ""); }},
+        info : function (message) {if (!internal.isInvalid()) { console.info (message ? message.replace(crlf, "") : ""); }}
+    };
+})(jQuery);
+
+
+WB_AJAX = (function($) {
+    var ErrorHandler = {
+    		parseResponse : function(url, jqxhr, textStatus, errorThrown){
+    			try {
+    				return JSON.parse(jqxhr.responseText);
+    			}
+    			catch (error){
+    				return {
+    					title : 'A system error has occurred.',
+    					msg  : "Failed on url :" +  url +  " Status :" + textStatus + " Error  :" + errorThrown ,
+    					referenceId : null    					
+    				};
+    			}
+    		},
+    		handleSystemError : function(request, jqxhr, textStatus, errorThrown) {
+                if(jqxhr.status == 0 || jqxhr.readyState == 0){
+                    //ajax request has been cancelled prior to completion
+                    return;
+                }
+                var error = this.parseResponse(request.url, jqxhr, textStatus, errorThrown);
+                this.showError(request.trigger, error);
+    		},
+            showError : function (trigger, error) {
+                // FoHo Xi pages use a new WB Dialog Helper.
+                if (window.FohoXi) {
+                    var title = error.title;
+                    var msg = error.msg + ((error.referenceId) ? ' ' + error.referenceId: '');
+                    WBDialogHelper.alertError(title, msg, "OK");
+                } else {
+                    WB_DIALOG.showError(trigger, error);
+                }
+            }
+    };
+    
+    var internal = {
+            doGet : function (request, synchronous) {
+                WB_HELPER.checkMethods(request, ['onSuccess'] , 'AJAX GET REQUEST');
+                var getData = $.param(request.param, true);
+                var headers = {};
+                if(request.ackCodes){
+                    headers = {
+                        ackCode : request.ackCodes
+                    };
+                }
+                return $.ajax({
+                    url:  contextPath + request.url,
+                    type: "GET",
+                    cache: false,
+                    data : getData,
+                    dataType: (request.dataType) ? request.dataType : "json",
+                    async: !synchronous,
+                    headers: headers,
+                    processData : false,
+                    contentType: "application/json; charset=utf-8",
+                    success : function(data){
+                        if(WB_LOGGER.isLogging()){
+                            if(data) WB_LOGGER.log( "Data loaded from " + request.url + ' with data ' + JSON.stringify(request.param));
+                            else  WB_LOGGER.warn("No data loaded from " + request.url + ' with data ' + JSON.stringify(request.param));
+                        }
+                        request.onSuccess(data);
+                    },
+                    error : function(jqxhr, textStatus, errorThrown){
+                        errorFunc(request, jqxhr, textStatus, errorThrown)
+                    }
+                });			
+            },
+            doPost : function(request,  synchronous , logging){
+                WB_HELPER.checkMethods(request, ['onSuccess'] , 'AJAX POST REQUEST');
+                
+                if(request.param == null) {
+                    if( (typeof(request.isApplicationErrorHandler) === "undefined") || !request.isApplicationErrorHandler()) {
+                        var error = {
+                                title : 'Nothing to POST.',
+                                msg  : "No data to send to  url :" +  request.url ,
+                                referenceId : null                      
+                        };
+                        ErrorHandler.showError(request.trigger, error);
+                    }
+                    return;
+                }	
+                var  postData = JSON.stringify(request.param);		
+                if(WB_LOGGER.isLogging() && logging){					
+                    WB_LOGGER.log('post data = ' + postData);
+                }
+                var headers = {};
+                if(request.ackCodes){
+                    headers = {
+                        ackCode : request.ackCodes
+                    };
+                }
+                return $.ajax({
+                    url:  contextPath + request.url,
+                    type: "POST",
+                    data : postData,
+                    dataType: (request.dataType) ? request.dataType : "json",
+                    async: !synchronous,
+                    headers: headers,
+                    contentType: "application/json; charset=utf-8",
+                    success: function(saveResult){
+                        if(!request.notExpectingSaveResult) {
+                            if(WB_LOGGER.isLogging() && logging){
+                                if(saveResult.messages.length == 0) 	WB_LOGGER.log("Post result : " + JSON.stringify(saveResult));
+                                else WB_LOGGER.error("Post result with errors : " + JSON.stringify(saveResult));								
+                            }
+                            
+                            if (typeof(request.isApplicationErrorHandler) === "undefined" || !request.isApplicationErrorHandler()) {
+                                var errMsgs = saveResult.messages;
+                                if(errMsgs.length > 0) {
+                                    var error = {
+                                            title : 'Errors while posting data.',
+                                            msg  : 'url :  ' +  request.url ,
+                                            referenceId : null                      
+                                    };
+                                    for(var i = 0, j = errMsgs.length; i < j; i++){
+                                       error.msg+= ("<br> " + errMsgs[i].text);
+                                    }
+                                    ErrorHandler.showError(request.trigger, error);
+                                }
+                            }
+                            saveResult.data = request.param;
+                        }
+                        //request is always a listener
+                        request.onSuccess(saveResult);
+                    },
+                    error : function(jqxhr, textStatus, errorThrown){
+                        errorFunc(request, jqxhr, textStatus, errorThrown)
+                    },
+                    beforeSend : function (jqXHR, settings){
+                    	var wbat = document.getElementById('wbat') ;
+                    	if(wbat != null){
+                    		jqXHR.setRequestHeader('wbat', wbat.value);
+                    	}
+                    }
+                });					
+                
+            },
+            doUpload : function(request, synchronous) {
+                WB_HELPER.checkMethods(request, ['onSuccess'] , 'AJAX Upload Request');
+                
+                if(request.param == null) {
+                    if( (typeof(request.isApplicationErrorHandler) === "undefined") || !request.isApplicationErrorHandler()) {
+                        var error = {
+                                title       : 'Nothing to upload.',
+                                msg         : "No data to send to url :" +  request.url ,
+                                referenceId : null                      
+                        };
+                        ErrorHandler.showError(request.trigger, error);
+                    }
+                    return;
+                }	
+                
+                var formData = new FormData();
+                for (var key in request.param) {
+                    if (request.param.hasOwnProperty(key)) {
+                    	formData.append(key, request.param[key]);
+                    }
+                }
+                
+                $.ajax({ 
+                    url         :  contextPath + request.url,
+                    type        : "POST",
+                    data        : formData,
+                    processData : false,
+     		        contentType : false,
+     		        async       : !synchronous,
+                    success     : function(saveResult) {
+                        if(!request.notExpectingSaveResult) {
+                            if(WB_LOGGER.isLogging()){
+                                if(saveResult.messages) {
+                                	WB_LOGGER.error("Upload result with errors : " + JSON.stringify(saveResult));
+                                }
+                                else {
+                                	WB_LOGGER.log("Upload result : " + JSON.stringify(saveResult));								
+                                }
+                            }
+                            
+                            if (typeof(request.isApplicationErrorHandler) === "undefined" || !request.isApplicationErrorHandler()) {
+                                var errMsgs = saveResult.messages;
+                                if(errMsgs.length > 0) {
+                                    var error = {
+                                            title       : 'Errors while uploading data.',
+                                            msg         : 'url :  ' +  request.url ,
+                                            referenceId : null                      
+                                    };
+                                    for(var i = 0, j = errMsgs.length; i < j; i++){
+                                       error.msg+= ("<br> " + errMsgs[i].text);
+                                    }
+                                    ErrorHandler.showError(request.trigger, error);
+                                }
+                            }
+                        }
+                        request.onSuccess(saveResult);
+                    },
+                    error : function(jqxhr, textStatus, errorThrown){
+                        errorFunc(request, jqxhr, textStatus, errorThrown)
+                    },
+                    beforeSend: function (jqXHR, settings) {
+                        var wbat = document.getElementById('wbat');
+                        if (wbat != null) {
+                            jqXHR.setRequestHeader('wbat', wbat.value);
+                        }
+                    }
+                });					
+            }
+    };
+
+    var errorFunc = function(request, jqxhr, textStatus, errorThrown){
+        if ((jqxhr.status == 401 || jqxhr.status == 302) && (request.type != "GET" || request.param.systemrequest != true)) {
+                window.onbeforeunload = null;
+                $(window).off('beforeunload');
+                reloadWindow();
+        }
+        else {
+            if(typeof(request.isSystemErrorHandler) === "undefined" || !request.isSystemErrorHandler()) {
+                ErrorHandler.handleSystemError(request, jqxhr, textStatus, errorThrown);
+            }
+            if (typeof(request.onSystemError) !== "undefined") {
+                request.onSystemError(jqxhr, textStatus, errorThrown);
+            }
+        }
+    }
+    
+    var api = {
+            doAsynchronousGet :  function(request){ return internal.doGet(request, false);},
+            doSynchronousGet :  function(request){ return internal.doGet(request, true);},
+            doAsynchronousPost :  function(request, logging){ 
+                logging = (typeof logging !== 'undefined') ?  logging : true;
+                return internal.doPost(request, false, logging);
+            },
+            doSynchronousPost :  function(request, logging){
+                logging = (typeof logging !== 'undefined') ?  logging : true;
+                return internal.doPost(request, true, logging);
+            },
+
+            // Aliases for doAsynchronousGet and doAsynchronousPost
+            get    :  function(request){ return internal.doGet(request, false); },
+            post   :  function(request){ return internal.doPost(request, false, true);},
+            upload :  function(request){ return internal.doUpload(request, false);}
+    };
+    
+    
+    return api;
+    
+})(jQuery);
+
+
+
+
+

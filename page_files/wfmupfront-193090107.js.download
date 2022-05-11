@@ -1,0 +1,63 @@
+/*
+ * Copyright (c) Infor 2013. All rights reserved. www.infor.com
+ */
+
+/**
+ * Javascript segments here must have no 
+ * dependency no any other javascript segments outside this file.
+ * It is suppposed to be loaded upfront, event before inlined javascript segments. 
+ * The functionality here provides Workspace / iFrame suppport
+ */
+
+var wfmTopWindow = null;
+var realWfmTopFound = false; //should always be true as wfm_top_window_flag should always be set
+
+function isRealWfmTopFound(){
+	getWfmTopWindow();
+	return realWfmTopFound;
+}
+function getWfmTopWindow(){   
+    if(wfmTopWindow !== null) return wfmTopWindow; 
+    var w = window;
+	try{
+		do{
+			if(w.wfm_top_window_flag){
+				realWfmTopFound = true;
+				wfmTopWindow = w;
+				break;
+			}
+			if(w === w.parent) w = null;
+			else w = w.parent;
+		} while ( w !== null )
+
+		if(wfmTopWindow === null)wfmTopWindow = top;
+
+	}catch (err){//Should never go here if wfm_top_window_flag is set.  If wfm_top_window_flag is not set the access of the 'name' property of the containing window may not be allowed
+		wfmTopWindow = top;
+	}
+	
+	return wfmTopWindow;
+}
+
+function insideWfmTopWindow() {
+   var returnValue = false;
+   if(window.parent != window) { //don't use '!==' here for the sake of IE8
+         try{
+			if(parent.isRealWfmTopFound())returnValue = true;
+		}catch (err){//the access of parent property may not be allowed
+			returnValue = false;
+		}
+	}
+	
+   return returnValue;
+}
+
+function wfmInFrame(){
+   	return getWfmTopWindow() !== window.top;
+}
+
+function getWfmLogOutWindowName(){   
+    getWfmTopWindow();
+    if(realWfmTopFound)return '_parent';
+	else return '_self';
+}
