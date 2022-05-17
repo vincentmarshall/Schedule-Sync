@@ -1,9 +1,8 @@
-from datetime import datetime, timedelta
+from datetime import datetime
 from cal_setup import get_calendar_service
 
 
 def main(day, month, year, shiftStartHr, shiftStartMn, shiftEndHr, shiftEndMn, position):
-   # creates one hour event tomorrow 10 AM IST
    service = get_calendar_service()
 
    startTime = datetime(int(year), int(month), int(day), int(shiftStartHr), int(shiftStartMn))
@@ -14,7 +13,7 @@ def main(day, month, year, shiftStartHr, shiftStartMn, shiftEndHr, shiftEndMn, p
    event_result = service.events().insert(calendarId='6c1obre6q5h2t66vc3l4aji3u8@group.calendar.google.com',
        body={
            "summary": position,
-           "description": 'This is a tutorial example of automating google calendar with python',
+           "description": 'Your shift at Cineplex Yonge and Dundas',
            "start": {"dateTime": start, "timeZone": 'Canada/Eastern'},
            "end": {"dateTime": end, "timeZone": 'Canada/Eastern'},
            "colorId": "3"

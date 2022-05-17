@@ -1,8 +1,5 @@
-import selenium
 import time
 import datetime
-import requests
-import urllib.request
 import create_event
 import re
 import list_events
@@ -15,8 +12,9 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium import webdriver
 from datetime import datetime
+import chromedriver_autoinstaller
 
-
+chromedriver_autoinstaller.install()
 
 chrome_options = Options()
 chrome_options.add_experimental_option("detach", True)
@@ -26,13 +24,20 @@ driver = webdriver.Chrome()
 
 driver.get('https://t11.ultipro.ca/')
 
-id_box = driver.find_element_by_id('ctl00_Content_Login1_UserName')
-id_box.send_keys('001058573')
+print('Please enter your username')
+username = input()
+print('Please enter your password')
+password = input()
 
-pass_box = driver.find_element_by_id('ctl00_Content_Login1_Password')
-pass_box.send_keys("Genesisgs4%")
+id_box = driver.find_element(By.ID, 'ctl00_Content_Login1_UserName')
+id_box.send_keys(username)
 
-login_box = driver.find_element_by_id('ctl00_Content_Login1_LoginButton')
+
+
+pass_box = driver.find_element(By.ID, 'ctl00_Content_Login1_Password')
+pass_box.send_keys(password)
+
+login_box = driver.find_element(By.ID, 'ctl00_Content_Login1_LoginButton')
 login_box.click()
 
 time.sleep(5)
@@ -42,23 +47,13 @@ driver.get('https://t11.ultipro.ca/Customs/CNPLX/Pages/View/WorkBrainSSO.aspx?US
 schedule_box = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.LINK_TEXT, "Work Schedule")))
 schedule_box.click()
 
+
 page = driver.page_source
-file = open('page.html', 'w')
-file.write(page)
-file.close()
 
-fileopen = open("page.html", "r")
-
-contents = fileopen.read()
-
-soup = BeautifulSoup(contents, 'lxml')
+soup = BeautifulSoup(page, 'lxml')
 
 gdp_table = soup.find("table", attrs={"class": "etmScheduleTable"})
 gdp_table_data = gdp_table.tbody.find_all("tr")  # contains 2 rows
-print("---------------------------------")
-print(gdp_table)
-print("---------------------------------")
-print(gdp_table_data)
 
 headings = []
 
@@ -92,11 +87,7 @@ def month_string_to_number(string):
         raise ValueError('Not a month')
 
 
-fileopen = open("page.html", "r")
-
-contents = fileopen.read()
-
-soup = BeautifulSoup(contents, 'lxml')
+soup = BeautifulSoup(page, 'lxml')
 
 gdp_table = soup.find("table", attrs={"class": "etmScheduleTable"})
 gdp_table_data = gdp_table.tbody.find_all("td", "calTD-NoShift")  # contains 2 rows
@@ -109,9 +100,6 @@ workingList = []
 testList = []
 
 working = list_events.main()
-#working1 = str(working[0][0])
-
-#testvar = [working1[i:i+8] for i in range(0, len(working1), 8)]
 
 def every_second_element(values):
     second_values = []
@@ -154,29 +142,14 @@ for k in gdp_table_data_sched:
     monthVal = month_string_to_number(timeVal[0])
     yearVal = timeVal[1]
 
-    #print(sched.text)
-    #print(monthVal)
-    #print(yearVal)
-
-    #print(startVal)
-    #print(startValHr)
-    #print(startValMn)
-    #print(endValHr)
-    #print(endValMn)
-    #print(posSched.text)
-
     if workingList:
         for value in workingList:
-            #print(value)
-            #print("-------")
-            #print(sched.text.strip())
             newDate1 = datetime.strptime(value,'%d').strftime('%d')
             newDate2 = datetime.strptime(sched.text.strip(),'%d').strftime('%d')
             print(newDate1)
             print(newDate2)
             if newDate2 in workingList:
-                print("event in schedule already, skipping")
-                #break
+                print("event in calendar already, skipping")
             else:
                 print("not in sched, creating")
                 create_event.main(sched.text, monthVal, yearVal, startValHr, startValMn, endValHr, endValMn, posSched.text)
